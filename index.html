@@ -1,55 +1,285 @@
-<div id="artPreview" class="hidden" style="margin-bottom: 1.5rem; text-align: center;">
-    <img id="previewImg" src="" width="120" height="120" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Squad DJs | Music Requests</title>
+    <style>
+        :root {
+            --primary: #1d4ed8;
+            --success: #16a34a;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        h1 { margin: 0 0 0.5rem 0; font-size: 1.75rem; color: #0f172a; }
+        .subtitle { margin-bottom: 2rem; color: #64748b; font-size: 0.95rem; }
+
+        .form-group { text-align: left; margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.85rem; color: #475569; }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        select:focus, input:focus { border-color: var(--primary); }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-top: 10px;
+        }
+
+        button:disabled { background-color: #94a3b8; cursor: not-allowed; }
+
+        .hidden { display: none !important; }
+        
+        #artPreview {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #previewImg {
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            object-fit: cover;
+            background-color: #e2e8f0;
+        }
+
+        #successMessage { padding: 2rem 0; }
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Fun Squad DJs</h1>
+    <p class="subtitle">Pick your DJ and send your request!</p>
+
+    <div class="form-group">
+        <label>Who is your DJ?</label>
+        <select id="djDropdown">
+            <option value="">Loading DJs...</option>
+        </select>
+    </div>
+
+    <div id="artPreview" class="hidden">
+        <img id="previewImg" src="" alt="Album Art">
+        <p id="previewText" style="font-size: 0.8rem; color: #64748b; margin-top: 8px;"></p>
+    </div>
+
+    <form id="requestForm" class="hidden">
+        <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="guestName" placeholder="e.g. John Smith" required>
+        </div>
+        <div class="form-group">
+            <label>Your Email</label>
+            <input type="email" id="guestEmail" placeholder="For your confirmation" required>
+        </div>
+        <div class="form-group">
+            <label>Song Title</label>
+            <input type="text" id="songTitle" list="songSuggestions" placeholder="Start typing a song..." required autocomplete="off">
+            <datalist id="songSuggestions"></datalist>
+        </div>
+        <div class="form-group">
+            <label>Artist</label>
+            <input type="text" id="artistName" list="artistSuggestions" placeholder="Artist name" required autocomplete="off">
+            <datalist id="artistSuggestions"></datalist>
+        </div>
+        <button type="submit" id="submitBtn">Submit Request</button>
+    </form>
+
+    <div id="successMessage" class="hidden">
+        <h2 id="successHeader" style="color: var(--success);">Request Sent!</h2>
+        <p>Your song is in the queue. Get ready to dance!</p>
+        <button onclick="location.reload()" style="background: #64748b; margin-top: 1.5rem;">Send Another</button>
+    </div>
 </div>
 
 <script>
-    // Update the JavaScript logic to handle artwork
-    const songInput = document.getElementById('songTitle');
-    const artistInput = document.getElementById('artistName');
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_v8SzAxL2h4JB_U6zv4whWpMzqjWjH2jTkdz-fii34lbyflBKWtl4M8DRtra9XhaL/exec";
+
+    const djDropdown = document.getElementById('djDropdown');
+    const requestForm = document.getElementById('requestForm');
     const artPreview = document.getElementById('artPreview');
     const previewImg = document.getElementById('previewImg');
+    const previewText = document.getElementById('previewText');
+    const songInput = document.getElementById('songTitle');
+    const artistInput = document.getElementById('artistName');
+    const songList = document.getElementById('songSuggestions');
+    const artistList = document.getElementById('artistSuggestions');
     
-    let selectedArtwork = "https://via.placeholder.com/150?text=No+Art"; // Default
     let searchResults = [];
+    let currentArtwork = "";
 
+    // 1. Fetch DJ List
+    window.onload = async () => {
+        try {
+            const response = await fetch(`${SCRIPT_URL}?type=getList`);
+            const data = await response.json();
+            djDropdown.innerHTML = '<option value="">-- Choose DJ --</option>';
+            data.names.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.innerHTML = name;
+                djDropdown.appendChild(opt);
+            });
+        } catch (e) {
+            djDropdown.innerHTML = '<option>Error loading DJs</option>';
+        }
+    };
+
+    // 2. Show form when DJ is selected
+    djDropdown.onchange = async () => {
+        if (!djDropdown.value) {
+            requestForm.classList.add('hidden');
+            return;
+        }
+        const resp = await fetch(`${SCRIPT_URL}?djName=${encodeURIComponent(djDropdown.value)}`);
+        const data = await resp.json();
+        if (data.status === "OPEN") {
+            requestForm.classList.remove('hidden');
+        } else {
+            alert("This DJ is not currently taking requests.");
+            requestForm.classList.add('hidden');
+        }
+    };
+
+    // 3. iTunes Search for Song Autocomplete
     songInput.addEventListener('input', async (e) => {
         const query = e.target.value;
         if (query.length < 3) return;
 
-        const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=musicTrack&limit=10`);
-        const data = await response.json();
-        searchResults = data.results;
+        try {
+            const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=musicTrack&limit=10`);
+            const data = await response.json();
+            searchResults = data.results;
 
-        const songList = document.getElementById('songSuggestions');
-        songList.innerHTML = '';
-        data.results.forEach(item => {
-            const option = document.createElement('option');
-            option.value = item.trackName;
-            songList.appendChild(option);
-        });
+            songList.innerHTML = '';
+            const uniqueSongs = [...new Set(data.results.map(item => item.trackName))];
+            uniqueSongs.forEach(song => {
+                const option = document.createElement('option');
+                option.value = song;
+                songList.appendChild(option);
+            });
+        } catch (err) { console.error(err); }
     });
 
+    // 4. Update Artist and Artwork on Song Selection
     songInput.addEventListener('change', () => {
-        const match = searchResults.find(item => item.trackName === songInput.value);
-        if (match) {
-            artistInput.value = match.artistName;
-            selectedArtwork = match.artworkUrl100.replace('100x100', '600x600'); // Higher res
-            previewImg.src = selectedArtwork;
+        const selectedSong = songInput.value;
+        artistList.innerHTML = '';
+        const matches = searchResults.filter(item => item.trackName === selectedSong);
+        
+        if (matches.length > 0) {
             artPreview.classList.remove('hidden');
+            currentArtwork = matches[0].artworkUrl100.replace('100x100', '600x600');
+            previewImg.src = currentArtwork;
+            previewText.innerText = `Selected: ${matches[0].trackName}`;
+
+            if (matches.length === 1) {
+                artistInput.value = matches[0].artistName;
+            } else {
+                matches.forEach(match => {
+                    const option = document.createElement('option');
+                    option.value = match.artistName;
+                    artistList.appendChild(option);
+                });
+                artistInput.value = '';
+                artistInput.placeholder = "Select artist...";
+            }
         }
     });
 
-    // In your form onsubmit, include the artwork:
+    // 5. Submit Form
     requestForm.onsubmit = async (e) => {
         e.preventDefault();
+        const submitBtn = document.getElementById('submitBtn');
+        const guestName = document.getElementById('guestName').value;
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Sending...";
+
         const payload = {
             djName: djDropdown.value,
-            guestName: document.getElementById('guestName').value,
+            guestName: guestName,
             guestEmail: document.getElementById('guestEmail').value,
             song: songInput.value,
             artist: artistInput.value,
-            artwork: selectedArtwork // Send the art URL to the script
+            artwork: currentArtwork || "https://via.placeholder.com/150?text=No+Art"
         };
-        // ... rest of the fetch code ...
+
+        try {
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(payload)
+            });
+
+            document.getElementById('successHeader').innerText = `Thanks, ${guestName}!`;
+            requestForm.classList.add('hidden');
+            artPreview.classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
+            djDropdown.parentElement.classList.add('hidden');
+        } catch (error) {
+            alert("Connection error. Please try again.");
+            submitBtn.disabled = false;
+        }
     };
 </script>
+</body>
+</html>
