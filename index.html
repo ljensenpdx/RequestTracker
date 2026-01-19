@@ -2,19 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fun Squad DJs | Music Requests</title>
     <style>
-        :root { --primary: #1d4ed8; --success: #16a34a; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; }
-        body { font-family: -apple-system, sans-serif; background-color: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .container { background: var(--card); padding: 2.5rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 420px; text-align: center; }
-        .form-group { text-align: left; margin-bottom: 1.2rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.85rem; color: #475569; }
-        input, select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; box-sizing: border-box; outline: none; }
-        button { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-top: 10px; }
+        :root { 
+            --primary: #2563eb; 
+            --success: #16a34a; 
+            --bg: #0f172a; 
+            --card: #1e293b; 
+            --text: #f8fafc; 
+            --input-bg: #334155;
+        }
+
+        body { 
+            font-family: -apple-system, system-ui, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .container { 
+            background: var(--card); 
+            padding: 2rem 1.5rem; 
+            border-radius: 24px; 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); 
+            width: 100%; 
+            max-width: 400px; 
+            text-align: center;
+        }
+
+        h1 { margin: 0 0 0.5rem 0; font-size: 1.5rem; letter-spacing: -0.025em; }
+        .subtitle { margin-bottom: 2rem; color: #94a3b8; font-size: 0.9rem; }
+
+        .form-group { text-align: left; margin-bottom: 1.25rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; }
+
+        /* 16px font-size prevents iOS auto-zoom */
+        input, select { 
+            width: 100%; 
+            padding: 14px; 
+            background: var(--input-bg);
+            border: 2px solid #475569;
+            border-radius: 12px; 
+            font-size: 16px; 
+            color: white;
+            box-sizing: border-box; 
+            outline: none;
+            -webkit-appearance: none; /* Fixes iOS select styling */
+        }
+
+        input:focus, select:focus { border-color: var(--primary); }
+
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            cursor: pointer; 
+            margin-top: 10px;
+            touch-action: manipulation;
+        }
+
+        button:active { opacity: 0.8; transform: scale(0.98); }
         .hidden { display: none !important; }
+
         #artPreview { margin-bottom: 1.5rem; display: flex; flex-direction: column; align-items: center; }
-        #previewImg { width: 150px; height: 150px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); object-fit: cover; }
+        #previewImg { width: 160px; height: 160px; border-radius: 16px; box-shadow: 0 10px 15px rgba(0,0,0,0.4); object-fit: cover; }
+        
+        #successMessage { padding: 2rem 0; }
     </style>
 </head>
 <body>
@@ -22,27 +87,31 @@
 <div class="container">
     <h1>Fun Squad DJs</h1>
     <div class="form-group">
-        <label>Who is your DJ?</label>
-        <select id="djDropdown"><option value="">Loading...</option></select>
+        <label>Pick Your DJ</label>
+        <select id="djDropdown"><option value="">Loading DJs...</option></select>
     </div>
 
     <div id="artPreview" class="hidden">
         <img id="previewImg" src="" alt="Album Art">
-        <p id="previewText" style="font-size: 0.8rem; color: #64748b; margin-top: 8px;"></p>
+        <p id="previewText" style="font-size: 0.8rem; color: #94a3b8; margin-top: 10px;"></p>
     </div>
 
     <form id="requestForm" class="hidden">
-        <div class="form-group"><label>Your Name</label><input type="text" id="guestName" required></div>
-        <div class="form-group"><label>Your Email</label><input type="email" id="guestEmail" required></div>
-        <div class="form-group"><label>Song Title</label><input type="text" id="songTitle" list="songSuggestions" placeholder="Search..." required autocomplete="off"><datalist id="songSuggestions"></datalist></div>
-        <div class="form-group"><label>Artist</label><input type="text" id="artistName" required></div>
+        <div class="form-group"><label>Your Name</label><input type="text" id="guestName" placeholder="e.g. Taylor" required></div>
+        <div class="form-group"><label>Your Email</label><input type="email" id="guestEmail" placeholder="For your confirmation" required></div>
+        <div class="form-group">
+            <label>Song Title</label>
+            <input type="text" id="songTitle" list="songSuggestions" placeholder="Search song..." required autocomplete="off">
+            <datalist id="songSuggestions"></datalist>
+        </div>
+        <div class="form-group"><label>Artist</label><input type="text" id="artistName" readonly></div>
         <button type="submit" id="submitBtn">Submit Request</button>
     </form>
 
     <div id="successMessage" class="hidden">
-        <h2 id="successHeader" style="color: var(--success);">Sent!</h2>
-        <p>Your song is in the queue.</p>
-        <button onclick="location.reload()" style="background: #64748b; margin-top: 1.5rem;">Send Another</button>
+        <h2 id="successHeader" style="color: var(--success); margin-bottom: 5px;">Sent!</h2>
+        <p style="color: #94a3b8;">Your DJ is on it. Get ready to dance!</p>
+        <button onclick="location.reload()" style="background: #475569; margin-top: 2rem;">Request Another</button>
     </div>
 </div>
 
@@ -51,9 +120,10 @@
     const djDropdown = document.getElementById('djDropdown');
     const requestForm = document.getElementById('requestForm');
     const songInput = document.getElementById('songTitle');
+    const artistInput = document.getElementById('artistName');
     
     let searchResults = [];
-    let currentArtwork = "https://via.placeholder.com/150?text=No+Art";
+    let currentArtwork = "";
 
     window.onload = async () => {
         const resp = await fetch(`${SCRIPT_URL}?type=getList`);
@@ -67,12 +137,12 @@
         const resp = await fetch(`${SCRIPT_URL}?djName=${encodeURIComponent(djDropdown.value)}`);
         const data = await resp.json();
         if (data.status === "OPEN") requestForm.classList.remove('hidden');
-        else alert("DJ is not taking requests.");
+        else alert("DJ " + djDropdown.value + " is not taking requests.");
     };
 
     songInput.addEventListener('input', async (e) => {
         if (e.target.value.length < 3) return;
-        const resp = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(e.target.value)}&entity=musicTrack&limit=10`);
+        const resp = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(e.target.value)}&entity=musicTrack&limit=8`);
         const data = await resp.json();
         searchResults = data.results;
         const songList = document.getElementById('songSuggestions');
@@ -86,23 +156,23 @@
             document.getElementById('artPreview').classList.remove('hidden');
             currentArtwork = match.artworkUrl100.replace('100x100', '600x600');
             document.getElementById('previewImg').src = currentArtwork;
-            document.getElementById('artistName').value = match.artistName;
-            document.getElementById('previewText').innerText = `Selected: ${match.trackName}`;
+            artistInput.value = match.artistName;
+            document.getElementById('previewText').innerText = `Requesting: ${match.trackName}`;
         }
     });
 
     requestForm.onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
-        btn.disabled = true; btn.innerText = "Sending...";
+        btn.disabled = true; btn.innerText = "Processing...";
         
         const payload = {
             djName: djDropdown.value,
             guestName: document.getElementById('guestName').value,
             guestEmail: document.getElementById('guestEmail').value,
             song: songInput.value,
-            artist: document.getElementById('artistName').value,
-            artwork: currentArtwork
+            artist: artistInput.value,
+            artwork: currentArtwork || "https://via.placeholder.com/300?text=Fun+Squad+DJs"
         };
 
         try {
@@ -110,7 +180,7 @@
             const resultData = await response.json();
 
             if (resultData.result === "limit_reached") {
-                alert("For fairness, we only accept 4 requests per guest per day. Make sure to dance to the ones you've already sent!");
+                alert("Max requests reached! (4 per day). For fairness, let's give others a chance!");
                 btn.disabled = false; btn.innerText = "Submit Request";
                 return;
             }
@@ -120,7 +190,7 @@
             document.getElementById('artPreview').classList.add('hidden');
             document.getElementById('successMessage').classList.remove('hidden');
         } catch (error) {
-            alert("Error sending request. Please check your connection.");
+            alert("Error. Please try again.");
             btn.disabled = false; btn.innerText = "Submit Request";
         }
     };
