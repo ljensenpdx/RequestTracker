@@ -6,12 +6,10 @@
     <title>Fun Squad DJs | Request Music</title>
     <style>
         :root { 
-            --primary: #2563eb; /* Electric Blue */
-            --secondary: #1e3a8a; /* Midnight Blue */
-            --success: #16a34a; 
-            --bg: #f1f5f9; 
-            --card: #ffffff; 
-            --text: #0f172a; 
+            --primary: #ff007f; /* Neon Pink */
+            --bg: #000000; /* Pure Black */
+            --text: #ffffff; /* White */
+            --input-border: #ffffff;
         }
 
         body { 
@@ -28,92 +26,89 @@
         }
 
         .container { 
-            background: var(--card); 
+            background: var(--bg); 
             padding: 2.5rem 1.5rem; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
             width: 100%; 
             max-width: 400px; 
             text-align: center;
         }
 
-        h1 { margin: 0 0 0.5rem 0; font-size: 1.75rem; font-weight: 800; color: var(--secondary); letter-spacing: -0.025em; }
-        .subtitle { margin-bottom: 2rem; color: #64748b; font-size: 0.95rem; }
+        h1 { margin: 0 0 0.5rem 0; font-size: 2rem; font-weight: 900; color: var(--primary); letter-spacing: -0.025em; text-transform: uppercase; }
+        .subtitle { margin-bottom: 2rem; color: #aaaaaa; font-size: 0.95rem; }
 
-        .form-group { text-align: left; margin-bottom: 1.25rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.85rem; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; }
+        .form-group { text-align: left; margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.85rem; color: var(--text); text-transform: uppercase; letter-spacing: 0.1em; }
 
         input, select { 
             width: 100%; 
             padding: 14px 16px; 
-            background: #fff;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px; 
+            background: var(--bg);
+            border: 2px solid var(--input-border);
+            border-radius: 8px; 
             font-size: 16px; 
             color: var(--text);
             box-sizing: border-box; 
             outline: none;
-            transition: all 0.2s;
         }
 
-        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37,99,235,0.1); }
+        input:focus, select:focus { border-color: var(--primary); }
 
         button { 
             width: 100%; 
             padding: 16px; 
             background: var(--primary); 
-            color: white; 
-            border: none; 
-            border-radius: 50px; /* Pill Shape */
+            color: var(--text); 
+            border: 2px solid var(--text);
+            border-radius: 50px; 
             font-size: 1.1rem; 
             font-weight: 800; 
             cursor: pointer; 
             margin-top: 10px;
-            transition: transform 0.1s;
+            text-transform: uppercase;
         }
 
-        button:active { transform: scale(0.98); background: var(--secondary); }
+        button:active { opacity: 0.8; transform: scale(0.98); }
         .hidden { display: none !important; }
 
         #artPreview { margin-bottom: 2rem; display: flex; flex-direction: column; align-items: center; }
-        #previewImg { width: 180px; height: 180px; border-radius: 15px; box-shadow: 0 15px 25px rgba(0,0,0,0.15); object-fit: cover; }
+        #previewImg { width: 180px; height: 180px; border-radius: 10px; border: 2px solid var(--primary); object-fit: cover; }
         
         #successMessage { padding: 2.5rem 0; }
-        #successHeader { color: var(--success); font-weight: 800; font-size: 2rem; }
+        #successHeader { color: var(--primary); font-weight: 900; font-size: 2.2rem; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>Fun Squad DJs</h1>
-    <p class="subtitle">Portland's Wedding & Event Professionals</p>
+    <p class="subtitle">Portland's Premier Event Music</p>
 
     <div class="form-group">
         <label>Your DJ</label>
-        <select id="djDropdown"><option value="">Scanning for DJs...</option></select>
+        <select id="djDropdown"><option value="">Scanning DJs...</option></select>
     </div>
 
     <div id="artPreview" class="hidden">
         <img id="previewImg" src="" alt="Album Art">
-        <p id="previewText" style="font-size: 0.9rem; font-weight: 600; color: var(--secondary); margin-top: 15px;"></p>
+        <p id="previewText" style="font-size: 1rem; font-weight: 700; color: var(--primary); margin-top: 15px;"></p>
     </div>
 
     <form id="requestForm" class="hidden">
-        <div class="form-group"><label>Name</label><input type="text" id="guestName" placeholder="What's your name?" required></div>
-        <div class="form-group"><label>Email</label><input type="email" id="guestEmail" placeholder="For your confirmation" required></div>
+        <div class="form-group"><label>Name</label><input type="text" id="guestName" placeholder="Your Name" required></div>
+        <div class="form-group"><label>Email</label><input type="email" id="guestEmail" placeholder="Confirmation Email" required></div>
         <div class="form-group">
             <label>Song Title</label>
-            <input type="text" id="songTitle" list="songSuggestions" placeholder="What song do you want?" required autocomplete="off">
+            <input type="text" id="songTitle" list="songSuggestions" placeholder="Song Title" required autocomplete="off">
             <datalist id="songSuggestions"></datalist>
         </div>
-        <div class="form-group"><label>Artist</label><input type="text" id="artistName" readonly style="background:#f8fafc; color:#64748b;"></div>
+        <div class="form-group"><label>Artist</label><input type="text" id="artistName" readonly style="border-color: #444;"></div>
         <button type="submit" id="submitBtn">Send Request</button>
     </form>
 
     <div id="successMessage" class="hidden">
         <h2 id="successHeader">SENT!</h2>
-        <p style="color: #64748b; font-weight: 500;">We've notified the DJ. Get ready!</p>
-        <button onclick="location.reload()" style="background: #475569; margin-top: 2rem; font-size: 0.9rem; padding: 12px;">Request Another</button>
+        <p style="color: #ffffff;">The DJ has been notified.</p>
+        <button onclick="location.reload()" style="background: #333; margin-top: 2rem; font-size: 0.9rem; border-color: #666;">Request Another</button>
     </div>
 </div>
 
@@ -129,7 +124,7 @@
     window.onload = async () => {
         const resp = await fetch(`${SCRIPT_URL}?type=getList`);
         const data = await resp.json();
-        djDropdown.innerHTML = '<option value="">-- Select DJ --</option>';
+        djDropdown.innerHTML = '<option value="">-- Choose DJ --</option>';
         data.names.forEach(n => { const o = document.createElement('option'); o.value = n; o.innerText = n; djDropdown.appendChild(o); });
     };
 
@@ -138,7 +133,7 @@
         const resp = await fetch(`${SCRIPT_URL}?djName=${encodeURIComponent(djDropdown.value)}`);
         const data = await resp.json();
         if (data.status === "OPEN") requestForm.classList.remove('hidden');
-        else { alert("DJ " + djDropdown.value + " is currently taking a break from requests."); requestForm.classList.add('hidden'); }
+        else { alert("DJ " + djDropdown.value + " is not taking requests."); }
     };
 
     songInput.addEventListener('input', async (e) => {
@@ -165,7 +160,7 @@
     requestForm.onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
-        btn.disabled = true; btn.innerText = "SENDING TO DJ...";
+        btn.disabled = true; btn.innerText = "Processing...";
         
         const payload = {
             djName: djDropdown.value,
@@ -173,7 +168,7 @@
             guestEmail: document.getElementById('guestEmail').value,
             song: songInput.value,
             artist: document.getElementById('artistName').value,
-            artwork: currentArtwork || "https://via.placeholder.com/300?text=Fun+Squad+DJs"
+            artwork: currentArtwork || "https://via.placeholder.com/300/000000/ff007f?text=Fun+Squad+DJs"
         };
 
         try {
@@ -181,7 +176,7 @@
             const resultData = await response.json();
 
             if (resultData.result === "limit_reached") {
-                alert("DJ Notice: You've reached the 4-request limit for today. Let's make sure everyone gets a turn!");
+                alert("Fairness Limit: 4 requests per guest. Let's make sure everyone gets a turn!");
                 btn.disabled = false; btn.innerText = "Send Request";
                 return;
             }
@@ -191,7 +186,7 @@
             document.getElementById('artPreview').classList.add('hidden');
             document.getElementById('successMessage').classList.remove('hidden');
         } catch (error) {
-            alert("Connection issue. Try again!");
+            alert("Connection error. Please try again.");
             btn.disabled = false; btn.innerText = "Send Request";
         }
     };
