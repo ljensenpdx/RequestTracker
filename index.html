@@ -9,12 +9,12 @@
             --primary: #ff007f; /* Neon Pink */
             --bg: #000000; /* Pure Black */
             --text: #ffffff; /* White */
-            --input-border: #ffffff;
+            --input-border: #ffffff; /* White */
         }
 
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            background-color: var(--bg); 
+            background-color: var(--bg); /* Black background */
             color: var(--text); 
             display: flex; 
             justify-content: center; 
@@ -33,18 +33,33 @@
             text-align: center;
         }
 
+        /* Header Color: #ff007f */
         h1 { margin: 0 0 0.5rem 0; font-size: 2rem; font-weight: 900; color: var(--primary); letter-spacing: -0.025em; text-transform: uppercase; }
         .subtitle { margin-bottom: 2rem; color: #aaaaaa; font-size: 0.95rem; }
 
         .form-group { text-align: left; margin-bottom: 1.5rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.85rem; color: var(--text); text-transform: uppercase; letter-spacing: 0.1em; }
 
+        /* Label Font: futura-lt-w01-light, Size: 15px */
+        label { 
+            display: block; 
+            margin-bottom: 0.5rem; 
+            font-weight: normal; 
+            font-family: 'futura-lt-w01-light', sans-serif; 
+            font-size: 15px; 
+            color: var(--text); 
+            text-transform: uppercase; 
+            letter-spacing: 0.1em; 
+        }
+
+        /* Input/Dropdown Font: avenir-lt-w01_85-heavy1475544100, Size: 16px */
+        /* Background: #000000, Text: #ffffff */
         input, select { 
             width: 100%; 
             padding: 14px 16px; 
             background: var(--bg);
             border: 2px solid var(--input-border);
             border-radius: 8px; 
+            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif;
             font-size: 16px; 
             color: var(--text);
             box-sizing: border-box; 
@@ -53,6 +68,7 @@
 
         input:focus, select:focus { border-color: var(--primary); }
 
+        /* Submit Button Color: #ff007f, Border/Text: #ffffff */
         button { 
             width: 100%; 
             padding: 16px; 
@@ -108,7 +124,7 @@
     <div id="successMessage" class="hidden">
         <h2 id="successHeader">SENT!</h2>
         <p style="color: #ffffff;">The DJ has been notified.</p>
-        <button onclick="location.reload()" style="background: #333; margin-top: 2rem; font-size: 0.9rem; border-color: #666;">Request Another</button>
+        <button onclick="location.reload()" style="background: #333; margin-top: 2rem; font-size: 0.9rem; border-color: #666; color: #fff;">Request Another</button>
     </div>
 </div>
 
