@@ -10,14 +10,11 @@
         .container { background: var(--card); padding: 2.5rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 420px; text-align: center; }
         .form-group { text-align: left; margin-bottom: 1.2rem; }
         label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.85rem; color: #475569; }
-        select, input { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; box-sizing: border-box; outline: none; }
-        select:focus, input:focus { border-color: var(--primary); }
+        input, select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; box-sizing: border-box; outline: none; }
         button { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-top: 10px; }
         .hidden { display: none !important; }
         #artPreview { margin-bottom: 1.5rem; display: flex; flex-direction: column; align-items: center; }
         #previewImg { width: 150px; height: 150px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); object-fit: cover; }
-        .loader { border: 3px solid #f3f3f3; border-top: 3px solid var(--primary); border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -26,7 +23,7 @@
     <h1>Fun Squad DJs</h1>
     <div class="form-group">
         <label>Who is your DJ?</label>
-        <select id="djDropdown"><option value="">Loading DJs...</option></select>
+        <select id="djDropdown"><option value="">Loading...</option></select>
     </div>
 
     <div id="artPreview" class="hidden">
@@ -37,14 +34,14 @@
     <form id="requestForm" class="hidden">
         <div class="form-group"><label>Your Name</label><input type="text" id="guestName" required></div>
         <div class="form-group"><label>Your Email</label><input type="email" id="guestEmail" required></div>
-        <div class="form-group"><label>Song Title</label><input type="text" id="songTitle" list="songSuggestions" placeholder="Search song..." required autocomplete="off"><datalist id="songSuggestions"></datalist></div>
-        <div class="form-group"><label>Artist</label><input type="text" id="artistName" list="artistSuggestions" placeholder="Artist" required autocomplete="off"><datalist id="artistSuggestions"></datalist></div>
+        <div class="form-group"><label>Song Title</label><input type="text" id="songTitle" list="songSuggestions" placeholder="Search..." required autocomplete="off"><datalist id="songSuggestions"></datalist></div>
+        <div class="form-group"><label>Artist</label><input type="text" id="artistName" required></div>
         <button type="submit" id="submitBtn">Submit Request</button>
     </form>
 
     <div id="successMessage" class="hidden">
-        <h2 id="successHeader" style="color: var(--success);">Request Sent!</h2>
-        <p>Get ready to dance!</p>
+        <h2 id="successHeader" style="color: var(--success);">Sent!</h2>
+        <p>Your song is in the queue.</p>
         <button onclick="location.reload()" style="background: #64748b; margin-top: 1.5rem;">Send Another</button>
     </div>
 </div>
@@ -53,10 +50,7 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_v8SzAxL2h4JB_U6zv4whWpMzqjWjH2jTkdz-fii34lbyflBKWtl4M8DRtra9XhaL/exec";
     const djDropdown = document.getElementById('djDropdown');
     const requestForm = document.getElementById('requestForm');
-    const artPreview = document.getElementById('artPreview');
-    const previewImg = document.getElementById('previewImg');
     const songInput = document.getElementById('songTitle');
-    const artistInput = document.getElementById('artistName');
     
     let searchResults = [];
     let currentArtwork = "https://via.placeholder.com/150?text=No+Art";
@@ -73,7 +67,7 @@
         const resp = await fetch(`${SCRIPT_URL}?djName=${encodeURIComponent(djDropdown.value)}`);
         const data = await resp.json();
         if (data.status === "OPEN") requestForm.classList.remove('hidden');
-        else { alert("DJ is not taking requests."); requestForm.classList.add('hidden'); }
+        else alert("DJ is not taking requests.");
     };
 
     songInput.addEventListener('input', async (e) => {
@@ -83,16 +77,16 @@
         searchResults = data.results;
         const songList = document.getElementById('songSuggestions');
         songList.innerHTML = '';
-        data.results.forEach(item => { const o = document.createElement('option'); o.value = item.trackName; songList.appendChild(o); });
+        data.results.forEach(i => { const o = document.createElement('option'); o.value = i.trackName; songList.appendChild(o); });
     });
 
     songInput.addEventListener('change', () => {
         const match = searchResults.find(i => i.trackName === songInput.value);
         if (match) {
-            artPreview.classList.remove('hidden');
+            document.getElementById('artPreview').classList.remove('hidden');
             currentArtwork = match.artworkUrl100.replace('100x100', '600x600');
-            previewImg.src = currentArtwork;
-            artistInput.value = match.artistName;
+            document.getElementById('previewImg').src = currentArtwork;
+            document.getElementById('artistName').value = match.artistName;
             document.getElementById('previewText').innerText = `Selected: ${match.trackName}`;
         }
     });
@@ -101,19 +95,34 @@
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
         btn.disabled = true; btn.innerText = "Sending...";
+        
         const payload = {
             djName: djDropdown.value,
             guestName: document.getElementById('guestName').value,
             guestEmail: document.getElementById('guestEmail').value,
             song: songInput.value,
-            artist: artistInput.value,
+            artist: document.getElementById('artistName').value,
             artwork: currentArtwork
         };
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-        document.getElementById('successHeader').innerText = `Thanks, ${payload.guestName}!`;
-        requestForm.classList.add('hidden');
-        artPreview.classList.add('hidden');
-        document.getElementById('successMessage').classList.remove('hidden');
+
+        try {
+            const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+            const resultData = await response.json();
+
+            if (resultData.result === "limit_reached") {
+                alert("For fairness, we only accept 4 requests per guest per day. Make sure to dance to the ones you've already sent!");
+                btn.disabled = false; btn.innerText = "Submit Request";
+                return;
+            }
+
+            document.getElementById('successHeader').innerText = `Thanks, ${payload.guestName}!`;
+            requestForm.classList.add('hidden');
+            document.getElementById('artPreview').classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
+        } catch (error) {
+            alert("Error sending request. Please check your connection.");
+            btn.disabled = false; btn.innerText = "Submit Request";
+        }
     };
 </script>
 </body>
