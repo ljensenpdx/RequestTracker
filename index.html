@@ -5,16 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fun Squad DJs | Request Music</title>
     <style>
+        /* 1. LOAD EXTERNAL FONTS */
+        @font-face {
+            font-family: 'avenir-lt-w01_85-heavy1475544100';
+            src: url('https://static.wixstatic.com/ufonts/68d003_34d10526e0334812b192994f3876934c/woff2/file.woff2') format('woff2');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'futura-lt-w01-light';
+            src: url('https://static.wixstatic.com/ufonts/68d003_1409390234a6438887e59600e12d5e75/woff2/file.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         :root { 
             --primary: #ff007f; /* Neon Pink */
             --bg: #000000; /* Pure Black */
             --text: #ffffff; /* White */
-            --input-border: #ffffff; /* White */
         }
 
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            background-color: var(--bg); /* Black background */
+            font-family: 'futura-lt-w01-light', sans-serif; 
+            background-color: var(--bg); 
             color: var(--text); 
             display: flex; 
             justify-content: center; 
@@ -33,17 +47,29 @@
             text-align: center;
         }
 
-        /* Header Color: #ff007f */
-        h1 { margin: 0 0 0.5rem 0; font-size: 2rem; font-weight: 900; color: var(--primary); letter-spacing: -0.025em; text-transform: uppercase; }
-        .subtitle { margin-bottom: 2rem; color: #aaaaaa; font-size: 0.95rem; }
+        /* Neon Pink Header */
+        h1 { 
+            margin: 0 0 0.5rem 0; 
+            font-size: 2.2rem; 
+            font-weight: 900; 
+            color: var(--primary); 
+            text-transform: uppercase; 
+            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif;
+        }
+
+        .subtitle { 
+            margin-bottom: 2rem; 
+            color: #aaaaaa; 
+            font-size: 0.95rem; 
+            font-family: 'futura-lt-w01-light', sans-serif;
+        }
 
         .form-group { text-align: left; margin-bottom: 1.5rem; }
 
-        /* Label Font: futura-lt-w01-light, Size: 15px */
+        /* Labels: Futura Light 15px */
         label { 
             display: block; 
-            margin-bottom: 0.5rem; 
-            font-weight: normal; 
+            margin-bottom: 0.6rem; 
             font-family: 'futura-lt-w01-light', sans-serif; 
             font-size: 15px; 
             color: var(--text); 
@@ -51,31 +77,32 @@
             letter-spacing: 0.1em; 
         }
 
-        /* Input/Dropdown Font: avenir-lt-w01_85-heavy1475544100, Size: 16px */
-        /* Background: #000000, Text: #ffffff */
+        /* Inputs/Dropdowns: Avenir Heavy 16px */
         input, select { 
             width: 100%; 
             padding: 14px 16px; 
-            background: var(--bg);
-            border: 2px solid var(--input-border);
+            background: #000000;
+            border: 2px solid #ffffff;
             border-radius: 8px; 
             font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif;
             font-size: 16px; 
-            color: var(--text);
+            color: #ffffff;
             box-sizing: border-box; 
             outline: none;
+            transition: border-color 0.2s;
         }
 
         input:focus, select:focus { border-color: var(--primary); }
 
-        /* Submit Button Color: #ff007f, Border/Text: #ffffff */
+        /* Submit Button: Pink Background, White Text/Border */
         button { 
             width: 100%; 
             padding: 16px; 
             background: var(--primary); 
-            color: var(--text); 
-            border: 2px solid var(--text);
+            color: #ffffff; 
+            border: 2px solid #ffffff;
             border-radius: 50px; 
+            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif;
             font-size: 1.1rem; 
             font-weight: 800; 
             cursor: pointer; 
@@ -87,10 +114,11 @@
         .hidden { display: none !important; }
 
         #artPreview { margin-bottom: 2rem; display: flex; flex-direction: column; align-items: center; }
-        #previewImg { width: 180px; height: 180px; border-radius: 10px; border: 2px solid var(--primary); object-fit: cover; }
-        
+        #previewImg { width: 180px; height: 180px; border-radius: 12px; border: 2px solid var(--primary); object-fit: cover; }
+        #previewText { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: var(--primary); margin-top: 15px; }
+
         #successMessage { padding: 2.5rem 0; }
-        #successHeader { color: var(--primary); font-weight: 900; font-size: 2.2rem; }
+        #successHeader { color: var(--primary); font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; font-weight: 900; font-size: 2.2rem; }
     </style>
 </head>
 <body>
@@ -106,7 +134,7 @@
 
     <div id="artPreview" class="hidden">
         <img id="previewImg" src="" alt="Album Art">
-        <p id="previewText" style="font-size: 1rem; font-weight: 700; color: var(--primary); margin-top: 15px;"></p>
+        <p id="previewText"></p>
     </div>
 
     <form id="requestForm" class="hidden">
@@ -123,8 +151,8 @@
 
     <div id="successMessage" class="hidden">
         <h2 id="successHeader">SENT!</h2>
-        <p style="color: #ffffff;">The DJ has been notified.</p>
-        <button onclick="location.reload()" style="background: #333; margin-top: 2rem; font-size: 0.9rem; border-color: #666; color: #fff;">Request Another</button>
+        <p style="color: #ffffff; font-family: 'futura-lt-w01-light', sans-serif;">The DJ has been notified.</p>
+        <button onclick="location.reload()" style="background: #333; margin-top: 2rem; border-color: #666; font-size: 0.9rem;">Request Another</button>
     </div>
 </div>
 
