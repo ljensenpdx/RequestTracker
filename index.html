@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fun Squad DJs | Music Requests</title>
+    <title>Fun Squad DJs | Request Music</title>
     <style>
         :root { 
-            --primary: #2563eb; 
-            --success: #16a34a; 
-            --bg: #0f172a; 
-            --card: #1e293b; 
-            --text: #f8fafc; 
-            --input-bg: #334155;
+            --primary: #007bff; /* Signature Blue */
+            --success: #28a745; 
+            --danger: #dc3545;
+            --bg: #f4f7f6; 
+            --card: #ffffff; 
+            --text: #333333; 
+            --input-border: #ced4da;
         }
 
         body { 
-            font-family: -apple-system, system-ui, sans-serif; 
+            font-family: 'Inter', -apple-system, system-ui, sans-serif; 
             background-color: var(--bg); 
             color: var(--text); 
             display: flex; 
@@ -23,61 +24,60 @@
             align-items: flex-start; 
             min-height: 100vh; 
             margin: 0; 
-            padding: 15px;
+            padding: 20px;
             box-sizing: border-box;
         }
 
         .container { 
             background: var(--card); 
-            padding: 2rem 1.5rem; 
-            border-radius: 24px; 
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); 
+            padding: 2.5rem 1.5rem; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
             width: 100%; 
             max-width: 400px; 
             text-align: center;
         }
 
-        h1 { margin: 0 0 0.5rem 0; font-size: 1.5rem; letter-spacing: -0.025em; }
-        .subtitle { margin-bottom: 2rem; color: #94a3b8; font-size: 0.9rem; }
+        h1 { margin: 0 0 0.5rem 0; font-size: 1.6rem; font-weight: 800; color: #000; }
+        .subtitle { margin-bottom: 2rem; color: #6c757d; font-size: 0.9rem; }
 
         .form-group { text-align: left; margin-bottom: 1.25rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.85rem; color: #cbd5e1; }
+        label { display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.85rem; color: #495057; }
 
-        /* 16px font-size prevents iOS auto-zoom */
         input, select { 
             width: 100%; 
-            padding: 14px; 
-            background: var(--input-bg);
-            border: 2px solid #475569;
-            border-radius: 12px; 
+            padding: 12px 15px; 
+            background: #fff;
+            border: 1px solid var(--input-border);
+            border-radius: 8px; 
             font-size: 16px; 
-            color: white;
+            color: var(--text);
             box-sizing: border-box; 
             outline: none;
-            -webkit-appearance: none; /* Fixes iOS select styling */
+            transition: border-color 0.2s;
         }
 
-        input:focus, select:focus { border-color: var(--primary); }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,123,255,0.1); }
 
         button { 
             width: 100%; 
-            padding: 16px; 
+            padding: 14px; 
             background: var(--primary); 
             color: white; 
             border: none; 
-            border-radius: 12px; 
-            font-size: 1.1rem; 
+            border-radius: 50px; /* Pill Shape */
+            font-size: 1rem; 
             font-weight: 700; 
             cursor: pointer; 
             margin-top: 10px;
-            touch-action: manipulation;
+            transition: background 0.2s;
         }
 
-        button:active { opacity: 0.8; transform: scale(0.98); }
+        button:active { background: #0056b3; }
         .hidden { display: none !important; }
 
         #artPreview { margin-bottom: 1.5rem; display: flex; flex-direction: column; align-items: center; }
-        #previewImg { width: 160px; height: 160px; border-radius: 16px; box-shadow: 0 10px 15px rgba(0,0,0,0.4); object-fit: cover; }
+        #previewImg { width: 140px; height: 140px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); object-fit: cover; }
         
         #successMessage { padding: 2rem 0; }
     </style>
@@ -86,32 +86,34 @@
 
 <div class="container">
     <h1>Fun Squad DJs</h1>
+    <p class="subtitle">Enter details to request your song!</p>
+
     <div class="form-group">
-        <label>Pick Your DJ</label>
-        <select id="djDropdown"><option value="">Loading DJs...</option></select>
+        <label>Select Your DJ</label>
+        <select id="djDropdown"><option value="">Fetching DJs...</option></select>
     </div>
 
     <div id="artPreview" class="hidden">
         <img id="previewImg" src="" alt="Album Art">
-        <p id="previewText" style="font-size: 0.8rem; color: #94a3b8; margin-top: 10px;"></p>
+        <p id="previewText" style="font-size: 0.8rem; color: #6c757d; margin-top: 10px;"></p>
     </div>
 
     <form id="requestForm" class="hidden">
-        <div class="form-group"><label>Your Name</label><input type="text" id="guestName" placeholder="e.g. Taylor" required></div>
-        <div class="form-group"><label>Your Email</label><input type="email" id="guestEmail" placeholder="For your confirmation" required></div>
+        <div class="form-group"><label>Your Name</label><input type="text" id="guestName" placeholder="Name" required></div>
+        <div class="form-group"><label>Your Email</label><input type="email" id="guestEmail" placeholder="Email Address" required></div>
         <div class="form-group">
             <label>Song Title</label>
-            <input type="text" id="songTitle" list="songSuggestions" placeholder="Search song..." required autocomplete="off">
+            <input type="text" id="songTitle" list="songSuggestions" placeholder="What song?" required autocomplete="off">
             <datalist id="songSuggestions"></datalist>
         </div>
-        <div class="form-group"><label>Artist</label><input type="text" id="artistName" readonly></div>
+        <div class="form-group"><label>Artist Name</label><input type="text" id="artistName" placeholder="Artist" readonly></div>
         <button type="submit" id="submitBtn">Submit Request</button>
     </form>
 
     <div id="successMessage" class="hidden">
-        <h2 id="successHeader" style="color: var(--success); margin-bottom: 5px;">Sent!</h2>
-        <p style="color: #94a3b8;">Your DJ is on it. Get ready to dance!</p>
-        <button onclick="location.reload()" style="background: #475569; margin-top: 2rem;">Request Another</button>
+        <h2 id="successHeader" style="color: var(--success); margin-bottom: 10px;">Request Sent!</h2>
+        <p style="color: #6c757d;">We've notified the DJ. Stay tuned!</p>
+        <button onclick="location.reload()" style="background: #6c757d; margin-top: 1.5rem;">Send Another</button>
     </div>
 </div>
 
@@ -128,7 +130,7 @@
     window.onload = async () => {
         const resp = await fetch(`${SCRIPT_URL}?type=getList`);
         const data = await resp.json();
-        djDropdown.innerHTML = '<option value="">-- Choose DJ --</option>';
+        djDropdown.innerHTML = '<option value="">-- Select DJ --</option>';
         data.names.forEach(n => { const o = document.createElement('option'); o.value = n; o.innerText = n; djDropdown.appendChild(o); });
     };
 
@@ -137,7 +139,7 @@
         const resp = await fetch(`${SCRIPT_URL}?djName=${encodeURIComponent(djDropdown.value)}`);
         const data = await resp.json();
         if (data.status === "OPEN") requestForm.classList.remove('hidden');
-        else alert("DJ " + djDropdown.value + " is not taking requests.");
+        else { alert("DJ " + djDropdown.value + " is not accepting requests right now."); requestForm.classList.add('hidden'); }
     };
 
     songInput.addEventListener('input', async (e) => {
@@ -157,14 +159,14 @@
             currentArtwork = match.artworkUrl100.replace('100x100', '600x600');
             document.getElementById('previewImg').src = currentArtwork;
             artistInput.value = match.artistName;
-            document.getElementById('previewText').innerText = `Requesting: ${match.trackName}`;
+            document.getElementById('previewText').innerText = `Selected: ${match.trackName}`;
         }
     });
 
     requestForm.onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
-        btn.disabled = true; btn.innerText = "Processing...";
+        btn.disabled = true; btn.innerText = "Sending Request...";
         
         const payload = {
             djName: djDropdown.value,
@@ -180,7 +182,7 @@
             const resultData = await response.json();
 
             if (resultData.result === "limit_reached") {
-                alert("Max requests reached! (4 per day). For fairness, let's give others a chance!");
+                alert("Fairness Policy: You've reached the limit of 4 requests today. Let's give everyone a chance to dance!");
                 btn.disabled = false; btn.innerText = "Submit Request";
                 return;
             }
@@ -190,7 +192,7 @@
             document.getElementById('artPreview').classList.add('hidden');
             document.getElementById('successMessage').classList.remove('hidden');
         } catch (error) {
-            alert("Error. Please try again.");
+            alert("Connection error. Please try again.");
             btn.disabled = false; btn.innerText = "Submit Request";
         }
     };
