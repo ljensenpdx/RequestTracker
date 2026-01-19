@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fun Squad DJs | Request Music</title>
     <style>
-        /* 1. FONT DECLARATIONS - DO NOT CHANGE NAMES */
+        /* 1. FONT DECLARATIONS */
         @font-face {
             font-family: 'avenir-lt-w01_85-heavy1475544100';
-            src: url('https://static.wixstatic.com/ufonts/68d003_34d10526e0334812b192994f3876934c/woff2/file.woff2') format('woff2'),
-                 url('https://static.wixstatic.com/ufonts/68d003_34d10526e0334812b192994f3876934c/woff/file.woff') format('woff');
+            src: url('https://static.wixstatic.com/ufonts/68d003_34d10526e0334812b192994f3876934c/woff2/file.woff2') format('woff2');
             font-weight: 800;
             font-style: normal;
             font-display: swap;
@@ -17,8 +16,7 @@
 
         @font-face {
             font-family: 'futura-lt-w01-light';
-            src: url('https://static.wixstatic.com/ufonts/68d003_1409390234a6438887e59600e12d5e75/woff2/file.woff2') format('woff2'),
-                 url('https://static.wixstatic.com/ufonts/68d003_1409390234a6438887e59600e12d5e75/woff/file.woff') format('woff');
+            src: url('https://static.wixstatic.com/ufonts/68d003_1409390234a6438887e59600e12d5e75/woff2/file.woff2') format('woff2');
             font-weight: 300;
             font-style: normal;
             font-display: swap;
@@ -30,11 +28,8 @@
             --text: #ffffff; /* White */
         }
 
-        /* Base styles */
-        * { box-sizing: border-box; }
-        
         body { 
-            font-family: 'futura-lt-w01-light', Arial, sans-serif; 
+            font-family: 'futura-lt-w01-light', sans-serif; 
             background-color: var(--bg); 
             color: var(--text); 
             display: flex; 
@@ -54,7 +49,7 @@
         }
 
         h1 { 
-            font-family: 'avenir-lt-w01_85-heavy1475544100', 'Arial Black', sans-serif;
+            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif !important;
             margin: 0 0 10px 0; 
             font-size: 2.2rem; 
             color: var(--primary); 
@@ -62,7 +57,7 @@
         }
 
         .subtitle { 
-            font-family: 'futura-lt-w01-light', sans-serif;
+            font-family: 'futura-lt-w01-light', sans-serif !important;
             margin-bottom: 30px; 
             color: #888; 
             font-size: 0.95rem; 
@@ -70,7 +65,7 @@
 
         .form-group { text-align: left; margin-bottom: 20px; }
 
-        /* Labels: Futura Light 15px */
+        /* Label Styling */
         label { 
             display: block; 
             margin-bottom: 8px; 
@@ -81,44 +76,44 @@
             letter-spacing: 0.1em; 
         }
 
-        /* Inputs/Dropdowns: Avenir Heavy 16px */
+        /* Input Styling */
         input, select { 
             width: 100%; 
             padding: 14px; 
-            background: #000000;
-            border: 2px solid #ffffff;
+            background: #000000 !important;
+            border: 3px solid #ffffff !important; /* Force Thick White Bold Border */
             border-radius: 8px; 
             font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif !important;
-            font-size: 16px; 
-            color: #ffffff;
+            font-size: 16px !important; 
+            font-weight: 800 !important; /* Bold Text Inside */
+            color: #ffffff !important;
             outline: none;
-            -webkit-appearance: none; /* Removes iOS default styling */
+            -webkit-appearance: none;
         }
 
-        input:focus, select:focus { border-color: var(--primary); }
+        input:focus, select:focus { border-color: var(--primary) !important; }
 
-        /* Submit Button */
+        /* Button Styling */
         button { 
             width: 100%; 
             padding: 16px; 
-            background: var(--primary); 
-            color: #ffffff; 
-            border: 2px solid #ffffff;
+            background: var(--primary) !important; 
+            color: #ffffff !important; 
+            border: 3px solid #ffffff !important;
             border-radius: 50px; 
-            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif;
+            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif !important;
             font-size: 1.1rem; 
-            font-weight: bold;
+            font-weight: 800;
             cursor: pointer; 
             margin-top: 15px;
             text-transform: uppercase;
         }
 
-        button:active { opacity: 0.8; transform: scale(0.98); }
         .hidden { display: none !important; }
 
         #artPreview { margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; }
-        #previewImg { width: 180px; height: 180px; border-radius: 12px; border: 2px solid var(--primary); object-fit: cover; }
-        #previewText { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: var(--primary); margin-top: 15px; }
+        #previewImg { width: 180px; height: 180px; border-radius: 12px; border: 3px solid var(--primary); object-fit: cover; }
+        #previewText { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: var(--primary); margin-top: 15px; font-weight: 800; }
 
         #successMessage { padding: 30px 0; }
         #successHeader { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: var(--primary); font-size: 2.2rem; }
@@ -131,7 +126,7 @@
     <p class="subtitle">Portland's Premier Event Music</p>
 
     <div class="form-group">
-        <label>Pick Your DJ</label>
+        <label>Your DJ</label>
         <select id="djDropdown"><option value="">Scanning DJs...</option></select>
     </div>
 
@@ -148,7 +143,7 @@
             <input type="text" id="songTitle" list="songSuggestions" placeholder="What song?" required autocomplete="off">
             <datalist id="songSuggestions"></datalist>
         </div>
-        <div class="form-group"><label>Artist</label><input type="text" id="artistName" readonly style="border-color: #444;"></div>
+        <div class="form-group"><label>Artist</label><input type="text" id="artistName" placeholder="Artist" onfocus="this.blur()"></div>
         <button type="submit" id="submitBtn">Send Request</button>
     </form>
 
@@ -164,6 +159,7 @@
     const djDropdown = document.getElementById('djDropdown');
     const requestForm = document.getElementById('requestForm');
     const songInput = document.getElementById('songTitle');
+    const artistInput = document.getElementById('artistName');
     
     let searchResults = [];
     let currentArtwork = "";
@@ -199,7 +195,7 @@
             document.getElementById('artPreview').classList.remove('hidden');
             currentArtwork = match.artworkUrl100.replace('100x100', '600x600');
             document.getElementById('previewImg').src = currentArtwork;
-            document.getElementById('artistName').value = match.artistName;
+            artistInput.value = match.artistName;
             document.getElementById('previewText').innerText = match.trackName.toUpperCase();
         }
     });
@@ -214,27 +210,25 @@
             guestName: document.getElementById('guestName').value,
             guestEmail: document.getElementById('guestEmail').value,
             song: songInput.value,
-            artist: document.getElementById('artistName').value,
+            artist: artistInput.value,
             artwork: currentArtwork || "https://via.placeholder.com/300/000000/ff007f?text=Fun+Squad+DJs"
         };
 
         try {
             const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
             const resultData = await response.json();
-
             if (resultData.result === "limit_reached") {
-                alert("Fairness Limit: 4 requests per guest per day.");
-                btn.disabled = false; btn.innerText = "Submit Request";
+                alert("Fairness Limit: 4 requests per guest.");
+                btn.disabled = false; btn.innerText = "Send Request";
                 return;
             }
-
             document.getElementById('successHeader').innerText = `THANKS, ${payload.guestName.toUpperCase()}!`;
             requestForm.classList.add('hidden');
             document.getElementById('artPreview').classList.add('hidden');
             document.getElementById('successMessage').classList.remove('hidden');
         } catch (error) {
             alert("Error sending request. Please try again.");
-            btn.disabled = false; btn.innerText = "Submit Request";
+            btn.disabled = false; btn.innerText = "Send Request";
         }
     };
 </script>
