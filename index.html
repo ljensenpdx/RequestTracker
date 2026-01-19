@@ -5,19 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fun Squad DJs | Request Music</title>
     <style>
-        /* 1. LOAD EXTERNAL FONTS */
+        /* 1. FONT DECLARATIONS - DO NOT CHANGE NAMES */
         @font-face {
             font-family: 'avenir-lt-w01_85-heavy1475544100';
-            src: url('https://static.wixstatic.com/ufonts/68d003_34d10526e0334812b192994f3876934c/woff2/file.woff2') format('woff2');
-            font-weight: bold;
+            src: url('https://static.wixstatic.com/ufonts/68d003_34d10526e0334812b192994f3876934c/woff2/file.woff2') format('woff2'),
+                 url('https://static.wixstatic.com/ufonts/68d003_34d10526e0334812b192994f3876934c/woff/file.woff') format('woff');
+            font-weight: 800;
             font-style: normal;
+            font-display: swap;
         }
 
         @font-face {
             font-family: 'futura-lt-w01-light';
-            src: url('https://static.wixstatic.com/ufonts/68d003_1409390234a6438887e59600e12d5e75/woff2/file.woff2') format('woff2');
-            font-weight: normal;
+            src: url('https://static.wixstatic.com/ufonts/68d003_1409390234a6438887e59600e12d5e75/woff2/file.woff2') format('woff2'),
+                 url('https://static.wixstatic.com/ufonts/68d003_1409390234a6438887e59600e12d5e75/woff/file.woff') format('woff');
+            font-weight: 300;
             font-style: normal;
+            font-display: swap;
         }
 
         :root { 
@@ -26,8 +30,11 @@
             --text: #ffffff; /* White */
         }
 
+        /* Base styles */
+        * { box-sizing: border-box; }
+        
         body { 
-            font-family: 'futura-lt-w01-light', sans-serif; 
+            font-family: 'futura-lt-w01-light', Arial, sans-serif; 
             background-color: var(--bg); 
             color: var(--text); 
             display: flex; 
@@ -36,43 +43,40 @@
             min-height: 100vh; 
             margin: 0; 
             padding: 20px;
-            box-sizing: border-box;
         }
 
         .container { 
             background: var(--bg); 
-            padding: 2.5rem 1.5rem; 
+            padding: 2rem 1rem; 
             width: 100%; 
             max-width: 400px; 
             text-align: center;
         }
 
-        /* Neon Pink Header */
         h1 { 
-            margin: 0 0 0.5rem 0; 
+            font-family: 'avenir-lt-w01_85-heavy1475544100', 'Arial Black', sans-serif;
+            margin: 0 0 10px 0; 
             font-size: 2.2rem; 
-            font-weight: 900; 
             color: var(--primary); 
             text-transform: uppercase; 
-            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif;
         }
 
         .subtitle { 
-            margin-bottom: 2rem; 
-            color: #aaaaaa; 
-            font-size: 0.95rem; 
             font-family: 'futura-lt-w01-light', sans-serif;
+            margin-bottom: 30px; 
+            color: #888; 
+            font-size: 0.95rem; 
         }
 
-        .form-group { text-align: left; margin-bottom: 1.5rem; }
+        .form-group { text-align: left; margin-bottom: 20px; }
 
         /* Labels: Futura Light 15px */
         label { 
             display: block; 
-            margin-bottom: 0.6rem; 
-            font-family: 'futura-lt-w01-light', sans-serif; 
+            margin-bottom: 8px; 
+            font-family: 'futura-lt-w01-light', sans-serif !important; 
             font-size: 15px; 
-            color: var(--text); 
+            color: #ffffff; 
             text-transform: uppercase; 
             letter-spacing: 0.1em; 
         }
@@ -80,21 +84,20 @@
         /* Inputs/Dropdowns: Avenir Heavy 16px */
         input, select { 
             width: 100%; 
-            padding: 14px 16px; 
+            padding: 14px; 
             background: #000000;
             border: 2px solid #ffffff;
             border-radius: 8px; 
-            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif;
+            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif !important;
             font-size: 16px; 
             color: #ffffff;
-            box-sizing: border-box; 
             outline: none;
-            transition: border-color 0.2s;
+            -webkit-appearance: none; /* Removes iOS default styling */
         }
 
         input:focus, select:focus { border-color: var(--primary); }
 
-        /* Submit Button: Pink Background, White Text/Border */
+        /* Submit Button */
         button { 
             width: 100%; 
             padding: 16px; 
@@ -104,21 +107,21 @@
             border-radius: 50px; 
             font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif;
             font-size: 1.1rem; 
-            font-weight: 800; 
+            font-weight: bold;
             cursor: pointer; 
-            margin-top: 10px;
+            margin-top: 15px;
             text-transform: uppercase;
         }
 
         button:active { opacity: 0.8; transform: scale(0.98); }
         .hidden { display: none !important; }
 
-        #artPreview { margin-bottom: 2rem; display: flex; flex-direction: column; align-items: center; }
+        #artPreview { margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; }
         #previewImg { width: 180px; height: 180px; border-radius: 12px; border: 2px solid var(--primary); object-fit: cover; }
         #previewText { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: var(--primary); margin-top: 15px; }
 
-        #successMessage { padding: 2.5rem 0; }
-        #successHeader { color: var(--primary); font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; font-weight: 900; font-size: 2.2rem; }
+        #successMessage { padding: 30px 0; }
+        #successHeader { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: var(--primary); font-size: 2.2rem; }
     </style>
 </head>
 <body>
@@ -128,7 +131,7 @@
     <p class="subtitle">Portland's Premier Event Music</p>
 
     <div class="form-group">
-        <label>Your DJ</label>
+        <label>Pick Your DJ</label>
         <select id="djDropdown"><option value="">Scanning DJs...</option></select>
     </div>
 
@@ -142,7 +145,7 @@
         <div class="form-group"><label>Email</label><input type="email" id="guestEmail" placeholder="Confirmation Email" required></div>
         <div class="form-group">
             <label>Song Title</label>
-            <input type="text" id="songTitle" list="songSuggestions" placeholder="Song Title" required autocomplete="off">
+            <input type="text" id="songTitle" list="songSuggestions" placeholder="What song?" required autocomplete="off">
             <datalist id="songSuggestions"></datalist>
         </div>
         <div class="form-group"><label>Artist</label><input type="text" id="artistName" readonly style="border-color: #444;"></div>
@@ -152,7 +155,7 @@
     <div id="successMessage" class="hidden">
         <h2 id="successHeader">SENT!</h2>
         <p style="color: #ffffff; font-family: 'futura-lt-w01-light', sans-serif;">The DJ has been notified.</p>
-        <button onclick="location.reload()" style="background: #333; margin-top: 2rem; border-color: #666; font-size: 0.9rem;">Request Another</button>
+        <button onclick="location.reload()" style="background: #333; margin-top: 30px; border-color: #666; font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif;">Request Another</button>
     </div>
 </div>
 
@@ -220,8 +223,8 @@
             const resultData = await response.json();
 
             if (resultData.result === "limit_reached") {
-                alert("Fairness Limit: 4 requests per guest. Let's make sure everyone gets a turn!");
-                btn.disabled = false; btn.innerText = "Send Request";
+                alert("Fairness Limit: 4 requests per guest per day.");
+                btn.disabled = false; btn.innerText = "Submit Request";
                 return;
             }
 
@@ -230,8 +233,8 @@
             document.getElementById('artPreview').classList.add('hidden');
             document.getElementById('successMessage').classList.remove('hidden');
         } catch (error) {
-            alert("Connection error. Please try again.");
-            btn.disabled = false; btn.innerText = "Send Request";
+            alert("Error sending request. Please try again.");
+            btn.disabled = false; btn.innerText = "Submit Request";
         }
     };
 </script>
