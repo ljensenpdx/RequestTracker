@@ -1,42 +1,225 @@
-// ... inside your index.html <script> tag ...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Squad DJs | Music Requests</title>
+    <style>
+        :root {
+            --primary: #1d4ed8;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
 
-requestForm.onsubmit = async (e) => {
-    e.preventDefault();
-    const submitBtn = document.getElementById('submitBtn');
-    const guestNameInput = document.getElementById('guestName'); // Get the input field
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Sending...";
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
 
-    const payload = {
-        djName: djDropdown.value,
-        guestName: guestNameInput.value, // Use the value
-        song: document.getElementById('songRequest').value
+        .container {
+            background: var(--card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        h1 { margin: 0 0 0.5rem 0; font-size: 1.75rem; color: #0f172a; }
+        .subtitle { margin-bottom: 2rem; color: #64748b; font-size: 0.95rem; }
+
+        .form-group { text-align: left; margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.6rem; font-weight: 600; font-size: 0.9rem; color: #475569; }
+
+        select, input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        select:focus, input:focus { border-color: var(--primary); }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:disabled { background-color: #94a3b8; cursor: not-allowed; }
+
+        .hidden { display: none; }
+        
+        #closedMessage {
+            padding: 1.5rem;
+            background-color: #fee2e2;
+            color: var(--danger);
+            border-radius: 12px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        #successMessage { padding: 2rem 0; }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Fun Squad DJs</h1>
+    <p class="subtitle">Pick your DJ and send your request!</p>
+
+    <div class="form-group">
+        <label for="djDropdown">Who is your DJ?</label>
+        <select id="djDropdown">
+            <option value="">Loading DJs...</option>
+        </select>
+    </div>
+
+    <div id="statusLoading" class="hidden" style="margin-bottom: 1.5rem;">
+        <div class="loader"></div> Checking availability...
+    </div>
+
+    <div id="closedMessage" class="hidden">
+        Sorry! This DJ is not currently taking requests.
+    </div>
+
+    <form id="requestForm" class="hidden">
+        <div class="form-group">
+            <label for="guestName">Your Name</label>
+            <input type="text" id="guestName" placeholder="e.g. John Smith" required>
+        </div>
+        <div class="form-group">
+            <label for="songRequest">Song & Artist</label>
+            <input type="text" id="songRequest" placeholder="e.g. 'Yeah!' by Usher" required>
+        </div>
+        <button type="submit" id="submitBtn">Submit Request</button>
+    </form>
+
+    <div id="successMessage" class="hidden">
+        <h2 id="successHeader" style="color: var(--success);">Request Sent!</h2>
+        <p>Your song is in the queue. Get ready to dance!</p>
+        <button onclick="location.reload()" style="background: #64748b; margin-top: 1.5rem;">Send Another</button>
+    </div>
+</div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_v8SzAxL2h4JB_U6zv4whWpMzqjWjH2jTkdz-fii34lbyflBKWtl4M8DRtra9XhaL/exec";
+
+    const djDropdown = document.getElementById('djDropdown');
+    const requestForm = document.getElementById('requestForm');
+    const closedMessage = document.getElementById('closedMessage');
+    const successMessage = document.getElementById('successMessage');
+    const statusLoading = document.getElementById('statusLoading');
+    const successHeader = document.getElementById('successHeader');
+
+    window.onload = async () => {
+        try {
+            const response = await fetch(`${SCRIPT_URL}?type=getList`);
+            const data = await response.json();
+            
+            djDropdown.innerHTML = '<option value="">-- Choose DJ --</option>';
+            data.names.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.innerHTML = name;
+                djDropdown.appendChild(opt);
+            });
+        } catch (error) {
+            djDropdown.innerHTML = '<option value="">Offline - Check permissions</option>';
+        }
     };
 
-    try {
-        await fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify(payload)
-        });
+    djDropdown.onchange = async () => {
+        const djName = djDropdown.value;
+        if (!djName) return;
 
-        // --- NEW: Personalize the success message ---
-        const successTitle = document.querySelector('#successMessage h2');
-        // Uses the guest's name, e.g., "Thanks, John!"
-        successTitle.innerText = `Thanks, ${payload.guestName}!`; 
-        // --------------------------------------------
-
+        statusLoading.classList.remove('hidden');
         requestForm.classList.add('hidden');
-        successMessage.classList.remove('hidden');
-        djDropdown.parentElement.classList.add('hidden');
-        
-        // Clear the inputs for the next request
-        guestNameInput.value = '';
-        document.getElementById('songRequest').value = '';
+        closedMessage.classList.add('hidden');
 
-    } catch (error) {
-        alert("Connection error. Try again.");
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Submit Request";
-    }
-};
+        try {
+            const response = await fetch(`${SCRIPT_URL}?djName=${encodeURIComponent(djName)}`);
+            const data = await response.json();
+
+            statusLoading.classList.add('hidden');
+            if (data.status === "OPEN") {
+                requestForm.classList.remove('hidden');
+            } else {
+                closedMessage.classList.remove('hidden');
+            }
+        } catch (error) {
+            statusLoading.classList.add('hidden');
+        }
+    };
+
+    requestForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('submitBtn');
+        const guestName = document.getElementById('guestName').value;
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Sending...";
+
+        const payload = {
+            djName: djDropdown.value,
+            guestName: guestName,
+            song: document.getElementById('songRequest').value
+        };
+
+        try {
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(payload)
+            });
+
+            // Personalize the success header
+            successHeader.innerText = `Thanks, ${guestName}!`;
+            
+            requestForm.classList.add('hidden');
+            successMessage.classList.remove('hidden');
+            djDropdown.parentElement.classList.add('hidden');
+        } catch (error) {
+            alert("Connection error. Try again.");
+            submitBtn.disabled = false;
+        }
+    };
+</script>
+
+</body>
+</html>
