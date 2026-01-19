@@ -3,130 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fun Squad DJs | Request Music</title>
+    <title>Fun Squad DJs | Request</title>
     <style>
-        /* 1. FONT DECLARATIONS */
-        @font-face {
-            font-family: 'avenir-lt-w01_85-heavy1475544100';
-            src: url('https://static.wixstatic.com/ufonts/68d003_34d10526e0334812b192994f3876934c/woff2/file.woff2') format('woff2');
-            font-weight: 800;
-            font-style: normal;
-            font-display: swap;
-        }
+        @font-face { font-family: 'avenir-lt-w01_85-heavy1475544100'; src: url('https://static.wixstatic.com/ufonts/68d003_34d10526e0334812b192994f3876934c/woff2/file.woff2') format('woff2'); font-weight: 800; }
+        @font-face { font-family: 'futura-lt-w01-light'; src: url('https://static.wixstatic.com/ufonts/68d003_1409390234a6438887e59600e12d5e75/woff2/file.woff2') format('woff2'); font-weight: 300; }
 
-        @font-face {
-            font-family: 'futura-lt-w01-light';
-            src: url('https://static.wixstatic.com/ufonts/68d003_1409390234a6438887e59600e12d5e75/woff2/file.woff2') format('woff2');
-            font-weight: 300;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        :root { 
-            --primary: #ff007f; 
-            --bg: #000000; 
-            --text: #ffffff; 
-        }
-
-        body { 
-            font-family: 'futura-lt-w01-light', sans-serif; 
-            background-color: var(--bg); 
-            color: var(--text); 
-            display: flex; 
-            justify-content: center; 
-            align-items: flex-start; 
-            min-height: 100vh; 
-            margin: 0; 
-            padding: 20px;
-        }
-
-        .container { 
-            background: var(--bg); 
-            padding: 2rem 1rem; 
-            width: 100%; 
-            max-width: 400px; 
-            text-align: center;
-        }
-
-        h1 { 
-            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif !important;
-            margin: 0 0 10px 0; 
-            font-size: 2.2rem; 
-            color: var(--primary); 
-            text-transform: uppercase; 
-        }
-
-        .subtitle { 
-            font-family: 'futura-lt-w01-light', sans-serif !important;
-            margin-bottom: 30px; 
-            color: #888; 
-            font-size: 0.95rem; 
-        }
-
-        .form-group { text-align: left; margin-bottom: 20px; }
-
-        label { 
-            display: block; 
-            margin-bottom: 8px; 
-            font-family: 'futura-lt-w01-light', sans-serif !important; 
-            font-size: 15px; 
-            color: #ffffff; 
-            text-transform: uppercase; 
-            letter-spacing: 0.1em; 
-        }
-
-        /* Standardized Input and Select sizing */
-        input, select { 
-            width: 100%; 
-            height: 54px; /* Explicit height to match all boxes */
-            padding: 0 16px; /* Centered text vertically via height */
-            background: #000000 !important;
-            border: 3px solid #ffffff !important; 
-            border-radius: 8px; 
-            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif !important;
-            font-size: 16px !important; 
-            font-weight: 800 !important; 
-            color: #ffffff !important;
-            outline: none;
-            box-sizing: border-box; /* Ensures border is included in width/height */
-            -webkit-appearance: none; /* Removes iOS default styling */
-            -moz-appearance: none;
-            appearance: none;
-        }
-
-        /* Custom arrow for the standardized dropdown */
-        select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 18px;
-        }
-
-        input:focus, select:focus { border-color: var(--primary) !important; }
-
-        button { 
-            width: 100%; 
-            padding: 16px; 
-            background: var(--primary) !important; 
-            color: #ffffff !important; 
-            border: 3px solid #ffffff !important;
-            border-radius: 50px; 
-            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif !important;
-            font-size: 1.1rem; 
-            font-weight: 800;
-            cursor: pointer; 
-            margin-top: 15px;
-            text-transform: uppercase;
-        }
-
+        :root { --primary: #ff007f; --bg: #000; --text: #fff; }
+        body { font-family: 'futura-lt-w01-light', sans-serif; background: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 400px; text-align: center; }
+        h1 { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: var(--primary); text-transform: uppercase; font-size: 2rem; margin: 0; }
+        .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; font-family: 'futura-lt-w01-light', sans-serif; font-size: 15px; text-transform: uppercase; margin-bottom: 5px; }
+        input, select { width: 100%; height: 54px; padding: 0 16px; background: #000; border: 3px solid #fff; border-radius: 8px; font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; font-size: 16px; color: #fff; box-sizing: border-box; outline: none; appearance: none; -webkit-appearance: none; }
+        button { width: 100%; padding: 16px; background: var(--primary); color: #fff; border: 3px solid #fff; border-radius: 50px; font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; font-size: 1.1rem; font-weight: 800; margin-top: 10px; text-transform: uppercase; }
         .hidden { display: none !important; }
-
-        #artPreview { margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; }
+        #artPreview { margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; }
         #previewImg { width: 180px; height: 180px; border-radius: 12px; border: 3px solid var(--primary); object-fit: cover; }
-        #previewText { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: var(--primary); margin-top: 15px; font-weight: 800; }
-
-        #successMessage { padding: 30px 0; }
-        #successHeader { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: var(--primary); font-size: 2.2rem; }
+        #previewText { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: var(--primary); margin-top: 10px; font-weight: 800; }
+        #karaokeBadge { background: #1DB954; color: #000; font-weight: 900; padding: 5px 10px; border-radius: 5px; font-size: 12px; display: inline-block; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -141,38 +36,39 @@
     </div>
 
     <div id="artPreview" class="hidden">
-        <img id="previewImg" src="" alt="Album Art">
+        <div id="karaokeBadge" class="hidden">KARAOKE MODE ACTIVE</div>
+        <img id="previewImg" src="" alt="Art">
         <p id="previewText"></p>
     </div>
 
     <form id="requestForm" class="hidden">
-        <div class="form-group"><label>Name</label><input type="text" id="guestName" placeholder="Your Name" required></div>
-        <div class="form-group"><label>Email</label><input type="email" id="guestEmail" placeholder="Confirmation Email" required></div>
+        <div class="form-group"><label>Name</label><input type="text" id="guestName" required></div>
+        <div class="form-group"><label>Email</label><input type="email" id="guestEmail" required></div>
         <div class="form-group">
-            <label>Song Title</label>
+            <label>Song Search</label>
             <input type="text" id="songTitle" list="songSuggestions" placeholder="What song?" required autocomplete="off">
             <datalist id="songSuggestions"></datalist>
         </div>
-        <div class="form-group"><label>Artist</label><input type="text" id="artistName" placeholder="Artist" onfocus="this.blur()"></div>
+        <div class="form-group"><label>Artist</label><input type="text" id="artistName" onfocus="this.blur()"></div>
+        
+        <div id="karaokeGroup" class="form-group hidden">
+            <label>Singer Note (Key change? Singers?)</label>
+            <input type="text" id="karaokeNote" placeholder="e.g. Up 1 step / Duo with Jessica">
+        </div>
+
         <button type="submit" id="submitBtn">Send Request</button>
     </form>
 
     <div id="successMessage" class="hidden">
-        <h2 id="successHeader">SENT!</h2>
-        <p style="color: #ffffff; font-family: 'futura-lt-w01-light', sans-serif;">The DJ has been notified.</p>
-        <button onclick="location.reload()" style="background: #333; margin-top: 30px; border-color: #666; font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: #fff;">Request Another</button>
+        <h2 id="successHeader" style="color:var(--primary); font-family:'avenir-lt-w01_85-heavy1475544100',sans-serif; font-size:2rem;">SENT!</h2>
+        <button onclick="location.reload()" style="background:#333; border-color:#666;">Another One</button>
     </div>
 </div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_v8SzAxL2h4JB_U6zv4whWpMzqjWjH2jTkdz-fii34lbyflBKWtl4M8DRtra9XhaL/exec";
-    const djDropdown = document.getElementById('djDropdown');
-    const requestForm = document.getElementById('requestForm');
-    const songInput = document.getElementById('songTitle');
-    const artistInput = document.getElementById('artistName');
-    
-    let searchResults = [];
-    let currentArtwork = "";
+    const djDropdown = document.getElementById('djDropdown'), requestForm = document.getElementById('requestForm'), songInput = document.getElementById('songTitle');
+    let searchResults = [], currentArtwork = "", isKaraokeMode = false;
 
     window.onload = async () => {
         const resp = await fetch(`${SCRIPT_URL}?type=getList`);
@@ -185,8 +81,17 @@
         if (!djDropdown.value) return;
         const resp = await fetch(`${SCRIPT_URL}?djName=${encodeURIComponent(djDropdown.value)}`);
         const data = await resp.json();
-        if (data.status === "OPEN") requestForm.classList.remove('hidden');
-        else { alert("DJ " + djDropdown.value + " is not taking requests."); }
+        if (data.status === "OPEN") {
+            requestForm.classList.remove('hidden');
+            isKaraokeMode = (data.karaoke === "ON");
+            if (isKaraokeMode) {
+                document.getElementById('karaokeGroup').classList.remove('hidden');
+                document.getElementById('karaokeBadge').classList.remove('hidden');
+            } else {
+                document.getElementById('karaokeGroup').classList.add('hidden');
+                document.getElementById('karaokeBadge').classList.add('hidden');
+            }
+        } else { alert("DJ not taking requests."); }
     };
 
     songInput.addEventListener('input', async (e) => {
@@ -194,27 +99,19 @@
         const resp = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(e.target.value)}&entity=musicTrack&limit=8`);
         const data = await resp.json();
         searchResults = data.results;
-        
         const songList = document.getElementById('songSuggestions');
         songList.innerHTML = '';
-        
-        data.results.forEach(item => {
-            const o = document.createElement('option');
-            o.value = `${item.trackName} (${item.artistName})`; 
-            songList.appendChild(o);
-        });
+        data.results.forEach(i => { const o = document.createElement('option'); o.value = `${i.trackName} (${i.artistName})`; songList.appendChild(o); });
     });
 
     songInput.addEventListener('change', () => {
-        const inputValue = songInput.value;
-        const match = searchResults.find(i => `${i.trackName} (${i.artistName})` === inputValue);
-        
+        const match = searchResults.find(i => `${i.trackName} (${i.artistName})` === songInput.value);
         if (match) {
             document.getElementById('artPreview').classList.remove('hidden');
             currentArtwork = match.artworkUrl100.replace('100x100', '600x600');
             document.getElementById('previewImg').src = currentArtwork;
-            artistInput.value = match.artistName;
-            songInput.value = match.trackName; 
+            document.getElementById('artistName').value = match.artistName;
+            songInput.value = match.trackName;
             document.getElementById('previewText').innerText = match.trackName.toUpperCase();
         }
     });
@@ -222,33 +119,23 @@
     requestForm.onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
-        btn.disabled = true; btn.innerText = "Processing...";
-        
+        btn.disabled = true; btn.innerText = "SENDING...";
         const payload = {
             djName: djDropdown.value,
             guestName: document.getElementById('guestName').value,
             guestEmail: document.getElementById('guestEmail').value,
             song: songInput.value,
-            artist: artistInput.value,
-            artwork: currentArtwork || "https://via.placeholder.com/300/000000/ff007f?text=Fun+Squad+DJs"
+            artist: document.getElementById('artistName').value,
+            artwork: currentArtwork,
+            isKaraoke: isKaraokeMode,
+            karaokeNote: document.getElementById('karaokeNote').value
         };
-
-        try {
-            const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-            const resultData = await response.json();
-            if (resultData.result === "limit_reached") {
-                alert("Fairness Limit: 4 requests per guest.");
-                btn.disabled = false; btn.innerText = "Send Request";
-                return;
-            }
-            document.getElementById('successHeader').innerText = `THANKS, ${payload.guestName.toUpperCase()}!`;
-            requestForm.classList.add('hidden');
-            document.getElementById('artPreview').classList.add('hidden');
-            document.getElementById('successMessage').classList.remove('hidden');
-        } catch (error) {
-            alert("Error sending request. Please try again.");
-            btn.disabled = false; btn.innerText = "Send Request";
-        }
+        const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+        const result = await response.json();
+        if (result.result === "limit_reached") { alert("4 request limit reached!"); btn.disabled = false; return; }
+        requestForm.classList.add('hidden');
+        document.getElementById('artPreview').classList.add('hidden');
+        document.getElementById('successMessage').classList.remove('hidden');
     };
 </script>
 </body>
