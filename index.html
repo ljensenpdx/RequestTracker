@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fun Squad DJs | Request Music</title>
     <style>
-        /* 1. FONT DECLARATIONS */
+        /* 1. FONT DECLARATIONS - DO NOT CHANGE NAMES */
         @font-face {
             font-family: 'avenir-lt-w01_85-heavy1475544100';
             src: url('https://static.wixstatic.com/ufonts/68d003_34d10526e0334812b192994f3876934c/woff2/file.woff2') format('woff2');
@@ -65,7 +65,6 @@
 
         .form-group { text-align: left; margin-bottom: 20px; }
 
-        /* Label Styling */
         label { 
             display: block; 
             margin-bottom: 8px; 
@@ -76,12 +75,11 @@
             letter-spacing: 0.1em; 
         }
 
-        /* Input Styling */
         input, select { 
             width: 100%; 
             padding: 14px; 
             background: #000000 !important;
-            border: 3px solid #ffffff !important; /* Force Thick White Bold Border */
+            border: 3px solid #ffffff !important; /* Thick Bold Border */
             border-radius: 8px; 
             font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif !important;
             font-size: 16px !important; 
@@ -93,7 +91,6 @@
 
         input:focus, select:focus { border-color: var(--primary) !important; }
 
-        /* Button Styling */
         button { 
             width: 100%; 
             padding: 16px; 
@@ -150,7 +147,7 @@
     <div id="successMessage" class="hidden">
         <h2 id="successHeader">SENT!</h2>
         <p style="color: #ffffff; font-family: 'futura-lt-w01-light', sans-serif;">The DJ has been notified.</p>
-        <button onclick="location.reload()" style="background: #333; margin-top: 30px; border-color: #666; font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif;">Request Another</button>
+        <button onclick="location.reload()" style="background: #333; margin-top: 30px; border-color: #666; font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: #fff;">Request Another</button>
     </div>
 </div>
 
@@ -184,18 +181,34 @@
         const resp = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(e.target.value)}&entity=musicTrack&limit=8`);
         const data = await resp.json();
         searchResults = data.results;
+        
         const songList = document.getElementById('songSuggestions');
         songList.innerHTML = '';
-        data.results.forEach(i => { const o = document.createElement('option'); o.value = i.trackName; songList.appendChild(o); });
+        
+        // --- NEW: Combine Song and Artist for display in dropdown ---
+        data.results.forEach(item => {
+            const o = document.createElement('option');
+            // Formats as "Song Name (Artist Name)"
+            o.value = `${item.trackName} (${item.artistName})`; 
+            songList.appendChild(o);
+        });
     });
 
     songInput.addEventListener('change', () => {
-        const match = searchResults.find(i => i.trackName === songInput.value);
+        const inputValue = songInput.value;
+        // Find match based on the combined value
+        const match = searchResults.find(i => `${i.trackName} (${i.artistName})` === inputValue);
+        
         if (match) {
             document.getElementById('artPreview').classList.remove('hidden');
             currentArtwork = match.artworkUrl100.replace('100x100', '600x600');
             document.getElementById('previewImg').src = currentArtwork;
+            
+            // Set fields to original values for the spreadsheet
             artistInput.value = match.artistName;
+            // Trim the artist out of the song title field for the payload
+            songInput.value = match.trackName; 
+            
             document.getElementById('previewText').innerText = match.trackName.toUpperCase();
         }
     });
