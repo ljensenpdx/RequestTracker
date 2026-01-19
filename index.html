@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fun Squad DJs | Request Music</title>
     <style>
-        /* 1. FONT DECLARATIONS - DO NOT CHANGE NAMES */
+        /* 1. FONT DECLARATIONS */
         @font-face {
             font-family: 'avenir-lt-w01_85-heavy1475544100';
             src: url('https://static.wixstatic.com/ufonts/68d003_34d10526e0334812b192994f3876934c/woff2/file.woff2') format('woff2');
@@ -23,9 +23,9 @@
         }
 
         :root { 
-            --primary: #ff007f; /* Neon Pink */
-            --bg: #000000; /* Pure Black */
-            --text: #ffffff; /* White */
+            --primary: #ff007f; 
+            --bg: #000000; 
+            --text: #ffffff; 
         }
 
         body { 
@@ -75,18 +75,31 @@
             letter-spacing: 0.1em; 
         }
 
+        /* Standardized Input and Select sizing */
         input, select { 
             width: 100%; 
-            padding: 14px; 
+            height: 54px; /* Explicit height to match all boxes */
+            padding: 0 16px; /* Centered text vertically via height */
             background: #000000 !important;
-            border: 3px solid #ffffff !important; /* Thick Bold Border */
+            border: 3px solid #ffffff !important; 
             border-radius: 8px; 
             font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif !important;
             font-size: 16px !important; 
-            font-weight: 800 !important; /* Bold Text Inside */
+            font-weight: 800 !important; 
             color: #ffffff !important;
             outline: none;
-            -webkit-appearance: none;
+            box-sizing: border-box; /* Ensures border is included in width/height */
+            -webkit-appearance: none; /* Removes iOS default styling */
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        /* Custom arrow for the standardized dropdown */
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 18px;
         }
 
         input:focus, select:focus { border-color: var(--primary) !important; }
@@ -185,10 +198,8 @@
         const songList = document.getElementById('songSuggestions');
         songList.innerHTML = '';
         
-        // --- NEW: Combine Song and Artist for display in dropdown ---
         data.results.forEach(item => {
             const o = document.createElement('option');
-            // Formats as "Song Name (Artist Name)"
             o.value = `${item.trackName} (${item.artistName})`; 
             songList.appendChild(o);
         });
@@ -196,19 +207,14 @@
 
     songInput.addEventListener('change', () => {
         const inputValue = songInput.value;
-        // Find match based on the combined value
         const match = searchResults.find(i => `${i.trackName} (${i.artistName})` === inputValue);
         
         if (match) {
             document.getElementById('artPreview').classList.remove('hidden');
             currentArtwork = match.artworkUrl100.replace('100x100', '600x600');
             document.getElementById('previewImg').src = currentArtwork;
-            
-            // Set fields to original values for the spreadsheet
             artistInput.value = match.artistName;
-            // Trim the artist out of the song title field for the payload
             songInput.value = match.trackName; 
-            
             document.getElementById('previewText').innerText = match.trackName.toUpperCase();
         }
     });
