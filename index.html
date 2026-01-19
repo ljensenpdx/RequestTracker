@@ -6,18 +6,18 @@
     <title>Fun Squad DJs | Music Requests</title>
     <style>
         :root {
-            --primary-color: #2563eb;
-            --success-color: #16a34a;
-            --error-color: #dc2626;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
+            --primary: #1d4ed8;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --text: #1e293b;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -27,67 +27,67 @@
         }
 
         .container {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: var(--card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             text-align: center;
         }
 
-        h1 { margin-bottom: 0.5rem; font-size: 1.5rem; color: #0f172a; }
-        p.subtitle { margin-bottom: 2rem; color: #64748b; font-size: 0.9rem; }
+        h1 { margin: 0 0 0.5rem 0; font-size: 1.75rem; color: #0f172a; }
+        .subtitle { margin-bottom: 2rem; color: #64748b; font-size: 0.95rem; }
 
         .form-group { text-align: left; margin-bottom: 1.5rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; }
+        label { display: block; margin-bottom: 0.6rem; font-weight: 600; font-size: 0.9rem; color: #475569; }
 
         select, input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
             font-size: 1rem;
             box-sizing: border-box;
             outline: none;
             transition: border-color 0.2s;
         }
 
-        select:focus, input:focus { border-color: var(--primary-color); }
+        select:focus, input:focus { border-color: var(--primary); }
 
         button {
             width: 100%;
-            padding: 14px;
-            background-color: var(--primary-color);
+            padding: 16px;
+            background-color: var(--primary);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: transform 0.1s, opacity 0.2s;
         }
 
+        button:active { transform: scale(0.98); }
         button:disabled { background-color: #94a3b8; cursor: not-allowed; }
 
         .hidden { display: none; }
         
         #closedMessage {
-            padding: 1rem;
+            padding: 1.5rem;
             background-color: #fee2e2;
-            color: var(--error-color);
-            border-radius: 8px;
+            color: var(--danger);
+            border-radius: 12px;
             margin-top: 1rem;
-            font-weight: 500;
+            font-weight: 600;
+            border: 1px solid #fecaca;
         }
 
-        #successMessage {
-            padding: 2rem 0;
-        }
+        #successMessage { padding: 2rem 0; }
 
         .loader {
             border: 3px solid #f3f3f3;
-            border-top: 3px solid var(--primary-color);
+            border-top: 3px solid var(--primary);
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -103,8 +103,8 @@
 <body>
 
 <div class="container">
-    <h1>Music Requests</h1>
-    <p class="subtitle">Select your DJ and send your song!</p>
+    <h1>Fun Squad DJs</h1>
+    <p class="subtitle">Pick your DJ and send your request!</p>
 
     <div class="form-group">
         <label for="djDropdown">Who is your DJ?</label>
@@ -113,7 +113,7 @@
         </select>
     </div>
 
-    <div id="statusLoading" class="hidden" style="margin-bottom: 1rem;">
+    <div id="statusLoading" class="hidden" style="margin-bottom: 1.5rem;">
         <div class="loader"></div> Checking availability...
     </div>
 
@@ -124,24 +124,25 @@
     <form id="requestForm" class="hidden">
         <div class="form-group">
             <label for="guestName">Your Name</label>
-            <input type="text" id="guestName" placeholder="e.g. John Doe" required>
+            <input type="text" id="guestName" placeholder="e.g. John Smith" required>
         </div>
         <div class="form-group">
             <label for="songRequest">Song & Artist</label>
-            <input type="text" id="songRequest" placeholder="e.g. 'Dancing Queen' by ABBA" required>
+            <input type="text" id="songRequest" placeholder="e.g. 'Yeah!' by Usher" required>
         </div>
         <button type="submit" id="submitBtn">Submit Request</button>
     </form>
 
     <div id="successMessage" class="hidden">
-        <h2 style="color: var(--success-color);">? Sent!</h2>
-        <p>Your request is in the queue. Watch the dance floor!</p>
-        <button onclick="location.reload()" style="background: #64748b; margin-top: 1rem;">Send Another</button>
+        <h2 style="color: var(--success); margin-top: 0;">? Request Sent!</h2>
+        <p>Your song is in the queue. Get ready to dance!</p>
+        <button onclick="location.reload()" style="background: #64748b; margin-top: 1.5rem;">Send Another</button>
     </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznnciEHEzRlIrKoOMl7SCDvXIkKexDKGQEHDnq3FQxFlpayh0XWc2dSGxpvJlyQlRk/exec";
+    // YOUR UPDATED SCRIPT URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzfYCuqnu0A5lsZYSbmAVq1doEo5-Dmr_MFhVS-zWVnndkaaPsIvNW8lC66YrkxqjI/exec";
 
     const djDropdown = document.getElementById('djDropdown');
     const requestForm = document.getElementById('requestForm');
@@ -163,12 +164,12 @@
                 djDropdown.appendChild(opt);
             });
         } catch (error) {
-            console.error("Error fetching DJ list:", error);
-            djDropdown.innerHTML = '<option value="">Error loading list</option>';
+            console.error("Error loading DJ list:", error);
+            djDropdown.innerHTML = '<option value="">Offline - Try refreshing</option>';
         }
     };
 
-    // 2. Check status when DJ is selected
+    // 2. Check DJ status on selection
     djDropdown.onchange = async () => {
         const djName = djDropdown.value;
         if (!djName) {
@@ -177,7 +178,6 @@
             return;
         }
 
-        // Show loading, hide others
         statusLoading.classList.remove('hidden');
         requestForm.classList.add('hidden');
         closedMessage.classList.add('hidden');
@@ -198,7 +198,7 @@
         }
     };
 
-    // 3. Submit Request via POST
+    // 3. Post Request
     requestForm.onsubmit = async (e) => {
         e.preventDefault();
         const submitBtn = document.getElementById('submitBtn');
@@ -212,21 +212,17 @@
         };
 
         try {
-            // Using No-CORS mode for Apps Script POST if standard fetch fails
             await fetch(SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Important for Apps Script POST requests
-                cache: 'no-cache',
-                headers: { 'Content-Type': 'application/json' },
+                mode: 'no-cors',
                 body: JSON.stringify(payload)
             });
 
-            // Note: with no-cors, we won't see the response, so we assume success
             requestForm.classList.add('hidden');
             successMessage.classList.remove('hidden');
-            djDropdown.parentElement.classList.add('hidden'); // Hide dropdown on success
+            djDropdown.parentElement.classList.add('hidden');
         } catch (error) {
-            alert("Something went wrong. Please try again.");
+            alert("Connection error. Please try again.");
             submitBtn.disabled = false;
             submitBtn.innerText = "Submit Request";
         }
