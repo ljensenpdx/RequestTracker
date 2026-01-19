@@ -9,7 +9,7 @@
             --primary: #1d4ed8;
             --success: #16a34a;
             --danger: #dc2626;
-            --bg: #f1f5f9;
+            --bg: #f8fafc;
             --card: #ffffff;
             --text: #1e293b;
         }
@@ -65,10 +65,9 @@
             font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s;
+            transition: opacity 0.2s;
         }
 
-        button:active { transform: scale(0.98); }
         button:disabled { background-color: #94a3b8; cursor: not-allowed; }
 
         .hidden { display: none; }
@@ -80,7 +79,6 @@
             border-radius: 12px;
             margin-top: 1rem;
             font-weight: 600;
-            border: 1px solid #fecaca;
         }
 
         #successMessage { padding: 2rem 0; }
@@ -134,15 +132,15 @@
     </form>
 
     <div id="successMessage" class="hidden">
-        <h2 style="color: var(--success); margin-top: 0;">? Request Sent!</h2>
+        <h2 style="color: var(--success);">? Request Sent!</h2>
         <p>Your song is in the queue. Get ready to dance!</p>
         <button onclick="location.reload()" style="background: #64748b; margin-top: 1.5rem;">Send Another</button>
     </div>
 </div>
 
 <script>
-    // YOUR UPDATED SCRIPT URL
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzfYCuqnu0A5lsZYSbmAVq1doEo5-Dmr_MFhVS-zWVnndkaaPsIvNW8lC66YrkxqjI/exec";
+    // THE NEW SCRIPT URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_v8SzAxL2h4JB_U6zv4whWpMzqjWjH2jTkdz-fii34lbyflBKWtl4M8DRtra9XhaL/exec";
 
     const djDropdown = document.getElementById('djDropdown');
     const requestForm = document.getElementById('requestForm');
@@ -150,7 +148,6 @@
     const successMessage = document.getElementById('successMessage');
     const statusLoading = document.getElementById('statusLoading');
 
-    // 1. Fetch DJ list on page load
     window.onload = async () => {
         try {
             const response = await fetch(`${SCRIPT_URL}?type=getList`);
@@ -164,19 +161,14 @@
                 djDropdown.appendChild(opt);
             });
         } catch (error) {
-            console.error("Error loading DJ list:", error);
-            djDropdown.innerHTML = '<option value="">Offline - Try refreshing</option>';
+            console.error("Error:", error);
+            djDropdown.innerHTML = '<option value="">Offline - Check permissions</option>';
         }
     };
 
-    // 2. Check DJ status on selection
     djDropdown.onchange = async () => {
         const djName = djDropdown.value;
-        if (!djName) {
-            requestForm.classList.add('hidden');
-            closedMessage.classList.add('hidden');
-            return;
-        }
+        if (!djName) return;
 
         statusLoading.classList.remove('hidden');
         requestForm.classList.add('hidden');
@@ -194,11 +186,9 @@
             }
         } catch (error) {
             statusLoading.classList.add('hidden');
-            console.error("Error checking status:", error);
         }
     };
 
-    // 3. Post Request
     requestForm.onsubmit = async (e) => {
         e.preventDefault();
         const submitBtn = document.getElementById('submitBtn');
@@ -222,9 +212,8 @@
             successMessage.classList.remove('hidden');
             djDropdown.parentElement.classList.add('hidden');
         } catch (error) {
-            alert("Connection error. Please try again.");
+            alert("Connection error. Try again.");
             submitBtn.disabled = false;
-            submitBtn.innerText = "Submit Request";
         }
     };
 </script>
