@@ -2,230 +2,228 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fun Squad DJs | Request Music</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Squad DJs | Master Planner</title>
     <style>
-        /* 1. FONT DECLARATIONS */
-        @font-face {
-            font-family: 'avenir-lt-w01_85-heavy1475544100';
-            src: url('https://static.wixstatic.com/ufonts/68d003_34d10526e0334812b192994f3876934c/woff2/file.woff2') format('woff2');
-            font-weight: 800;
+        :root {
+            --lane: #2ecc71; --jacob: #3498db; --jon: #f1c40f; --dylan: #e67e22; --conflict: #e74c3c;
+            --dark: #2c3e50; --light: #f0f2f5;
         }
-
-        @font-face {
-            font-family: 'futura-lt-w01-light';
-            src: url('https://static.wixstatic.com/ufonts/68d003_1409390234a6438887e59600e12d5e75/woff2/file.woff2') format('woff2');
-            font-weight: 300;
-        }
-
-        :root { --primary: #ff007f; --bg: #000000; --text: #ffffff; }
-
-        body { 
-            font-family: 'futura-lt-w01-light', sans-serif; 
-            background-color: var(--bg); 
-            color: var(--text); 
-            display: flex; 
-            justify-content: center; 
-            align-items: flex-start; 
-            min-height: 100vh; 
-            margin: 0; 
-            padding: 20px;
-        }
-
-        .container { background: var(--bg); padding: 2.5rem 1rem; width: 100%; max-width: 400px; text-align: center; }
-        h1 { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif !important; margin: 0 0 10px 0; font-size: 2.2rem; color: var(--primary); text-transform: uppercase; }
-        .subtitle { font-family: 'futura-lt-w01-light', sans-serif !important; margin-bottom: 30px; color: #888; font-size: 0.95rem; }
-        .form-group { text-align: left; margin-bottom: 20px; }
-
-        label { display: block; margin-bottom: 8px; font-family: 'futura-lt-w01-light', sans-serif !important; font-size: 15px; color: #ffffff; text-transform: uppercase; letter-spacing: 0.1em; }
-
-        input[type="text"], input[type="email"], select { 
-            width: 100%; 
-            height: 54px; 
-            padding: 0 16px; 
-            background: #000000 !important;
-            border: 3px solid #ffffff !important; 
-            border-radius: 8px; 
-            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif !important;
-            font-size: 16px !important; 
-            font-weight: 800 !important; 
-            color: #ffffff !important;
-            outline: none;
-            box-sizing: border-box;
-            -webkit-appearance: none;
-        }
-
-        /* --- NEW HIGH-CONTRAST CHECKBOX STYLING --- */
-        .checkbox-group { display: flex; align-items: center; margin-bottom: 25px; cursor: pointer; background: #111; padding: 10px; border-radius: 8px; border: 1px solid #333; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--light); padding: 15px; margin: 0; color: #333; }
         
-        .checkbox-group input[type="checkbox"] {
-            appearance: none; /* Remove default browser styling */
-            -webkit-appearance: none;
-            width: 30px;
-            height: 30px;
-            border: 3px solid #ffffff; /* Bold white border when unchecked */
-            border-radius: 6px;
-            background-color: #000000;
-            margin-right: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0; /* Prevents squishing on small screens */
-        }
-
-        /* Checking style */
-        .checkbox-group input[type="checkbox"]:checked {
-            background-color: var(--primary); /* Neon pink fill */
-            border-color: var(--primary);
-        }
-
-        /* The white checkmark icon */
-        .checkbox-group input[type="checkbox"]:checked::after {
-            content: '';
-            width: 18px;
-            height: 18px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
+        /* Layout */
+        .header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .controls { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         
-        .checkbox-label { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; font-size: 16px; color: #fff; text-transform: uppercase; letter-spacing: 0.05em;}
-        /* ------------------------------------------ */
+        /* Grid */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; background: #dfe4ea; border: 2px solid #dfe4ea; border-radius: 12px; overflow: hidden; }
+        .weekday { background: var(--dark); color: white; text-align: center; padding: 12px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; }
+        
+        /* Days */
+        .day { background: white; min-height: 150px; padding: 10px; display: flex; flex-direction: column; gap: 5px; position: relative; }
+        .day.today { background: #fff9db; }
+        .day.conflict { background: #fff5f5; border: 2px solid var(--conflict); }
+        .day.other-month { background: #f8f9fa; color: #ccc; }
+        .date-num { font-weight: 900; color: #a4b0be; font-size: 1.1rem; }
 
-        button { 
-            width: 100%; 
-            padding: 16px; 
-            background: var(--primary) !important; 
-            color: #ffffff !important; 
-            border: 3px solid #ffffff !important;
-            border-radius: 50px; 
-            font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif !important;
-            font-size: 1.1rem; 
-            font-weight: 800;
-            cursor: pointer; 
-            margin-top: 15px;
-            text-transform: uppercase;
-        }
-
-        .hidden { display: none !important; }
-        #artPreview { margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; }
-        #previewImg { width: 180px; height: 180px; border-radius: 12px; border: 3px solid var(--primary); object-fit: cover; }
-        #previewText { font-family: 'avenir-lt-w01_85-heavy1475544100', sans-serif; color: var(--primary); margin-top: 15px; font-weight: 800; }
+        /* DJ Name Tags */
+        .name-tag { color: white; padding: 5px; border-radius: 6px; font-size: 10px; text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .Lane { background: var(--lane); }
+        .Jacob { background: var(--jacob); }
+        .Jon { background: var(--jon); color: #333; }
+        .Dylan { background: var(--dylan); }
+        
+        /* Show Details */
+        .show-box { background: #34495e; color: white; font-size: 10px; padding: 6px; border-radius: 6px; border-left: 4px solid #1abc9c; }
+        .show-box b { display: block; color: #1abc9c; font-size: 11px; margin-bottom: 3px; }
+        .show-box i { display: block; font-style: normal; color: #bdc3c7; margin-top: 2px; }
+        
+        .alert-text { color: var(--conflict); font-size: 10px; font-weight: bold; text-align: center; background: #ffebeb; padding: 4px; border-radius: 4px; margin-top: auto; }
+        
+        /* Buttons/Inputs */
+        button { padding: 10px 18px; cursor: pointer; border: none; border-radius: 8px; background: var(--dark); color: white; font-weight: bold; transition: 0.2s; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+        .save-btn { background: #27ae60; }
+        select, input { padding: 10px; border: 1px solid #ced4da; border-radius: 8px; font-size: 0.9rem; outline: none; }
+        
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); display: flex; justify-content: center; align-items: center; font-weight: bold; z-index: 1000; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Fun Squad DJs</h1>
-    <p class="subtitle">Portland's Premier Event Music</p>
+<div id="loading-overlay">Syncing Fun Squad Data...</div>
 
-    <div class="form-group">
-        <label>Your DJ</label>
-        <select id="djDropdown"><option value="">Scanning DJs...</option></select>
-    </div>
-
-    <div id="artPreview" class="hidden">
-        <img id="previewImg" src="" alt="Album Art">
-        <p id="previewText"></p>
-    </div>
-
-    <form id="requestForm" class="hidden">
-        <div class="form-group"><label>Name</label><input type="text" id="guestName" placeholder="Your Name" required></div>
-        <div class="form-group"><label>Email</label><input type="email" id="guestEmail" placeholder="Confirmation Email" required></div>
-        
-        <div class="checkbox-group" onclick="const cb=document.getElementById('isKaraoke'); cb.checked = !cb.checked;">
-            <input type="checkbox" id="isKaraoke" onclick="event.stopPropagation()">
-            <span class="checkbox-label">Is this for Karaoke?</span>
-        </div>
-
-        <div class="form-group">
-            <label>Song Title</label>
-            <input type="text" id="songTitle" list="songSuggestions" placeholder="Search..." required autocomplete="off">
-            <datalist id="songSuggestions"></datalist>
-        </div>
-        <div class="form-group"><label>Artist</label><input type="text" id="artistName" placeholder="Artist" onfocus="this.blur()"></div>
-        <button type="submit" id="submitBtn">Send Request</button>
-    </form>
-
-    <div id="successMessage" class="hidden">
-        <h2 id="successHeader" style="color:var(--primary); font-family:'avenir-lt-w01_85-heavy1475544100',sans-serif; font-size:2.2rem;">SENT!</h2>
-        <button onclick="location.reload()" style="background: #333; margin-top: 30px; border-color: #666; color:#fff;">Another One</button>
-    </div>
+<div class="header">
+    <button onclick="changeMonth(-1)">◀ PREV</button>
+    <h2 id="monthLabel">Month Year</h2>
+    <button onclick="changeMonth(1)">NEXT ▶</button>
 </div>
 
+<div class="controls">
+    <strong>TIME OFF:</strong>
+    <select id="djName">
+        <option value="Lane">Lane</option>
+        <option value="Jacob">Jacob</option>
+        <option value="Jon">Jon</option>
+        <option value="Dylan">Dylan</option>
+    </select>
+    <input type="date" id="offDate">
+    <button class="save-btn" onclick="saveToCloud()">SAVE REQUEST</button>
+</div>
+
+<div id="calendar" class="calendar-grid"></div>
+
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_v8SzAxL2h4JB_U6zv4whWpMzqjWjH2jTkdz-fii34lbyflBKWtl4M8DRtra9XhaL/exec";
-    const djDropdown = document.getElementById('djDropdown');
-    const requestForm = document.getElementById('requestForm');
-    const songInput = document.getElementById('songTitle');
-    const artistInput = document.getElementById('artistName');
+    // YOUR LIVE GOOGLE SCRIPT URL
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwYgGRDSKn6UbesekzWOUcAKzf_HcNGzwDmIkLO4hc882FzibICvCtUNB7l7i4W_40G/exec'; 
     
-    let searchResults = [];
-    let currentArtwork = "";
+    let viewDate = new Date();
+    let offData = []; 
+    let showData = [];
 
-    window.onload = async () => {
-        const resp = await fetch(`${SCRIPT_URL}?type=getList`);
-        const data = await resp.json();
-        djDropdown.innerHTML = '<option value="">-- Choose DJ --</option>';
-        data.names.forEach(n => { const o = document.createElement('option'); o.value = n; o.innerText = n; djDropdown.appendChild(o); });
-    };
+    // Helper: Clean iCal strings (handles the \, and \n characters in your file)
+    const clean = (str) => str ? str.replace(/\\,/g, ',').replace(/\\n/g, ' ').trim() : "";
 
-    djDropdown.onchange = async () => {
-        if (!djDropdown.value) return;
-        const resp = await fetch(`${SCRIPT_URL}?djName=${encodeURIComponent(djDropdown.value)}`);
-        const data = await resp.json();
-        if (data.status === "OPEN") requestForm.classList.remove('hidden');
-        else { alert("DJ not taking requests."); }
-    };
+    // Helper: Convert DTSTART string to readable time
+    function formatTime(icalStr) {
+        if(!icalStr) return "";
+        let hh = parseInt(icalStr.substring(9, 11));
+        let mm = icalStr.substring(11, 13);
+        let ampm = hh >= 12 ? 'PM' : 'AM';
+        hh = hh % 12 || 12;
+        return `${hh}:${mm} ${ampm}`;
+    }
 
-    songInput.addEventListener('input', async (e) => {
-        if (e.target.value.length < 3) return;
-        const resp = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(e.target.value)}&entity=musicTrack&limit=8`);
-        const data = await resp.json();
-        searchResults = data.results;
-        const songList = document.getElementById('songSuggestions');
-        songList.innerHTML = '';
-        data.results.forEach(i => { const o = document.createElement('option'); o.value = `${i.trackName} (${i.artistName})`; songList.appendChild(o); });
-    });
+    async function loadIcalData() {
+        try {
+            // Adding a timestamp to the URL forces GitHub to load the NEW file instead of a cached one
+            const res = await fetch('events.ics?t=' + new Date().getTime());
+            if (!res.ok) throw new Error("ICS file not found");
+            let text = await res.text();
+            
+            // "Unfold" iCal lines (remove line breaks followed by a space)
+            text = text.replace(/\r?\n[ \t]/g, "");
 
-    songInput.addEventListener('change', () => {
-        const inputValue = songInput.value;
-        const match = searchResults.find(i => `${i.trackName} (${i.artistName})` === inputValue);
-        if (match) {
-            document.getElementById('artPreview').classList.remove('hidden');
-            currentArtwork = match.artworkUrl100.replace('100x100', '600x600');
-            document.getElementById('previewImg').src = currentArtwork;
-            artistInput.value = match.artistName;
-            songInput.value = match.trackName; 
-            document.getElementById('previewText').innerText = match.trackName.toUpperCase();
+            const events = [];
+            const blocks = text.split("BEGIN:VEVENT");
+            blocks.shift(); 
+
+            blocks.forEach(block => {
+                const summary = block.match(/SUMMARY:(.*)/)?.[1];
+                const loc = block.match(/LOCATION:(.*)/)?.[1];
+                const startRaw = block.match(/DTSTART:(\d{8}T\d{6})/)?.[1];
+                const endRaw = block.match(/DTEND:(\d{8}T\d{6})/)?.[1];
+                
+                if (startRaw) {
+                    const dateStr = `${startRaw.substring(0, 4)}-${startRaw.substring(4, 6)}-${startRaw.substring(6, 8)}`;
+                    events.push({
+                        date: dateStr,
+                        client: clean(summary).replace("DJ Event for ", ""),
+                        timeRange: `${formatTime(startRaw)} - ${formatTime(endRaw)}`,
+                        loc: clean(loc).split(',')[0]
+                    });
+                }
+            });
+            return events;
+        } catch (e) {
+            console.warn("ICS load error: Using empty show list.");
+            return [];
         }
-    });
+    }
 
-    requestForm.onsubmit = async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true; btn.innerText = "Processing...";
+    async function init() {
+        document.getElementById('loading-overlay').style.display = 'flex';
+        showData = await loadIcalData();
+        try {
+            const res = await fetch(scriptURL);
+            offData = await res.json();
+            console.log("Time-off data loaded:", offData);
+        } catch(e) { 
+            console.error("Cloud error: Could not fetch time-off data."); 
+        }
         
-        const payload = {
-            djName: djDropdown.value,
-            guestName: document.getElementById('guestName').value,
-            guestEmail: document.getElementById('guestEmail').value,
-            song: songInput.value,
-            artist: artistInput.value,
-            artwork: currentArtwork || "https://via.placeholder.com/300/000000/ff007f?text=Fun+Squad+DJs",
-            isKaraoke: document.getElementById('isKaraoke').checked
-        };
+        document.getElementById('loading-overlay').style.display = 'none';
+        render();
+    }
 
-        const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        const result = await response.json();
-        if (result.result === "limit_reached") { alert("4 request limit!"); btn.disabled = false; return; }
+    async function saveToCloud() {
+        const name = document.getElementById('djName').value;
+        const date = document.getElementById('offDate').value;
+        if(!date) return alert("Select a date!");
+
+        const btn = document.querySelector('.save-btn');
+        btn.innerText = "SAVING...";
+        btn.disabled = true;
+
+        try {
+            await fetch(scriptURL, { method: 'POST', body: JSON.stringify({ name, date }) });
+            location.reload(); 
+        } catch(e) { 
+            alert("Error saving. Try again."); 
+            btn.innerText = "SAVE REQUEST"; 
+            btn.disabled = false; 
+        }
+    }
+
+    function render() {
+        const grid = document.getElementById('calendar');
+        grid.innerHTML = '';
+        const month = viewDate.getMonth();
+        const year = viewDate.getFullYear();
         
-        document.getElementById('successHeader').innerText = `THANKS, ${payload.guestName.toUpperCase()}!`;
-        requestForm.classList.add('hidden');
-        document.getElementById('artPreview').classList.add('hidden');
-        document.getElementById('successMessage').classList.remove('hidden');
-    };
+        document.getElementById('monthLabel').innerText = viewDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+        ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => grid.innerHTML += `<div class="weekday">${d}</div>`);
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        // Fill previous month gaps
+        for(let i=0; i<firstDay; i++) grid.innerHTML += `<div class="day other-month"></div>`;
+
+        for(let d=1; d<=daysInMonth; d++) {
+            const dateStr = `${year}-${(month+1).toString().padStart(2,'0')}-${d.toString().padStart(2,'0')}`;
+            const todayShows = showData.filter(s => s.date === dateStr);
+            
+            // Correct column filtering for offData (lowercase 'o')
+            const todayOff = offData.filter(row => {
+                if (!row[1]) return false;
+                let dObj = new Date(row[1]);
+                let fmt = dObj.getFullYear() + "-" + String(dObj.getMonth()+1).padStart(2,'0') + "-" + String(dObj.getDate()).padStart(2,'0');
+                return fmt === dateStr;
+            });
+
+            const available = 4 - todayOff.length;
+            const isConflict = todayShows.length > available;
+            const isRealToday = new Date().toISOString().split('T')[0] === dateStr;
+
+            let dayHtml = `<div class="day ${isConflict ? 'conflict' : ''} ${isRealToday ? 'today' : ''}">
+                <span class="date-num">${d}</span>`;
+            
+            todayShows.forEach(s => {
+                dayHtml += `<div class="show-box"><b>🎤 ${s.client}</b>${s.timeRange}<i>@ ${s.loc}</i></div>`;
+            });
+
+            todayOff.forEach(row => {
+                const name = String(row[0]).trim();
+                dayHtml += `<div class="name-tag ${name}">${name}</div>`;
+            });
+
+            if(isConflict) {
+                dayHtml += `<span class="alert-text">⚠️ NEED ${todayShows.length - available} MORE DJ(S)</span>`;
+            }
+
+            dayHtml += `</div>`;
+            grid.innerHTML += dayHtml;
+        }
+    }
+
+    function changeMonth(dir) {
+        viewDate.setMonth(viewDate.getMonth() + dir);
+        render();
+    }
+
+    init();
 </script>
 </body>
 </html>
